@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>加茂錦酒造 | Flagship</title>
+  <title>加茂錦酒造 | Flagship — Toggle</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -315,8 +315,6 @@
       caret-color: var(--gold);
     }
     .field__input::placeholder { color: rgba(78,73,68,0.45); font-weight: 200; font-size: 0.95rem; }
-    .field__sel { font-size: 0.88rem; }
-    .field__sel.has-value { font-size: 1.05rem; }
     .field__sel {
       cursor: pointer;
       background-image: url("data:image/svg+xml,%3Csvg width='8' height='5' viewBox='0 0 8 5' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0L4 5L8 0' stroke='%234e4944' stroke-width='0.7' fill='none'/%3E%3C/svg%3E");
@@ -568,12 +566,6 @@
       }
 
       .field-row { grid-template-columns: 1fr; }
-
-      .seg-toggle__btn {
-        font-size: 0.72rem;
-        letter-spacing: 0.1em;
-        padding: 0.72rem 0.3rem;
-      }
     }
 
     /* narrow phones: tighten BRILLIANCE letter-spacing */
@@ -593,14 +585,12 @@
        SEGMENTED TOGGLE  (個人 / 飲食店・業者)
     ═══════════════════════════════════════ */
 
-    .toggle-wrap {
-      margin-bottom: 2rem;
-    }
-
     .seg-toggle {
       display: flex;
       width: 100%;
       border: 1px solid rgba(78,73,68,0.4);
+      margin-bottom: 0;
+      /* bottom border is visually "covered" by active tab's gold underline */
       position: relative;
     }
 
@@ -618,24 +608,38 @@
       color: var(--mid);
       position: relative;
       transition: color 0.28s;
+      /* vertical divider between buttons */
     }
 
+    /* divider between the two buttons */
     .seg-toggle__btn + .seg-toggle__btn {
       border-left: 1px solid rgba(78,73,68,0.4);
     }
 
+    /* active state */
     .seg-toggle__btn.active {
       color: var(--text);
     }
 
+    /* gold bottom border on active tab — sits over the container bottom border */
     .seg-toggle__btn.active::after {
       content: '';
       position: absolute;
-      bottom: -1px;
+      bottom: -1px; /* overlap the container's bottom border */
       left: 0;
       right: 0;
       height: 1px;
       background: var(--gold);
+    }
+
+    /* spacing between toggle and first field below */
+    .seg-toggle {
+      margin-bottom: 0;
+    }
+
+    /* wrapper that sits between form-sub and fields; adds bottom margin */
+    .toggle-wrap {
+      margin-bottom: 2rem;
     }
 
   </style>
@@ -684,8 +688,8 @@
         <!-- ══ SEGMENTED TOGGLE ══ -->
         <div class="toggle-wrap" role="group" aria-label="登録区分">
           <div class="seg-toggle" id="segToggle">
-            <button type="button" class="seg-toggle__btn active" id="btnKojin" aria-pressed="true">個人のお客様</button>
-            <button type="button" class="seg-toggle__btn" id="btnHoujin" aria-pressed="false">飲食店のお客様</button>
+            <button type="button" class="seg-toggle__btn active" id="btnKojin" aria-pressed="true">個人</button>
+            <button type="button" class="seg-toggle__btn" id="btnHoujin" aria-pressed="false">飲食店・業者</button>
           </div>
         </div>
 
@@ -722,22 +726,21 @@
           <input class="field__input" type="tel" id="phone" name="phone" required placeholder="090-0000-0000" autocomplete="tel" maxlength="13">
         </div>
 
-        <!-- ══ 共通: 郵便番号 ══ -->
-        <div class="field">
-          <label class="field__lbl" for="postal_code">郵便番号<span class="field__req">*</span></label>
-          <input class="field__input" type="text" id="postal_code" name="postal_code" required placeholder="000-0000" autocomplete="postal-code" maxlength="8" inputmode="numeric">
-        </div>
+        <!-- ══ 個人グループ: 郵便番号・ご住所 (default: visible) ══ -->
+        <div class="grp-kojin" id="grpKojin">
+          <div class="field">
+            <label class="field__lbl" for="postal_code">郵便番号<span class="field__req">*</span></label>
+            <input class="field__input" type="text" id="postal_code" name="postal_code" required placeholder="000-0000" autocomplete="postal-code" maxlength="8" inputmode="numeric">
+          </div>
 
-        <!-- ══ 個人グループ: ご住所 (default: visible) ══ -->
-        <div id="grpKojin">
           <div class="field">
             <label class="field__lbl" for="address">ご住所<span class="field__req">*</span></label>
             <input class="field__input" type="text" id="address" name="address" required placeholder="都道府県 市区町村 番地" autocomplete="street-address">
           </div>
         </div>
 
-        <!-- ══ 飲食店グループ: 店舗名・店舗住所 (default: hidden) ══ -->
-        <div id="grpHoujin" style="display:none">
+        <!-- ══ 飲食店・業者グループ: 店舗名・店舗住所 (default: hidden) ══ -->
+        <div class="grp-houjin" id="grpHoujin" style="display:none">
           <div class="field">
             <label class="field__lbl" for="shop_name">店舗名<span class="field__req">*</span></label>
             <input class="field__input" type="text" id="shop_name" name="shop_name" placeholder="○○酒店">
@@ -812,33 +815,51 @@
     var grpHoujin  = document.getElementById('grpHoujin');
     var memberType = document.getElementById('memberType');
 
+    /* fields inside each group */
     var kojinFields  = grpKojin.querySelectorAll('input');
     var houjinFields = grpHoujin.querySelectorAll('input');
 
     function activateKojin() {
-      btnKojin.classList.add('active');    btnKojin.setAttribute('aria-pressed', 'true');
-      btnHoujin.classList.remove('active'); btnHoujin.setAttribute('aria-pressed', 'false');
+      /* button states */
+      btnKojin.classList.add('active');
+      btnKojin.setAttribute('aria-pressed', 'true');
+      btnHoujin.classList.remove('active');
+      btnHoujin.setAttribute('aria-pressed', 'false');
+
+      /* show/hide groups */
       grpKojin.style.display  = '';
       grpHoujin.style.display = 'none';
+
+      /* required: restore kojin, remove houjin */
       kojinFields.forEach(function(f){ f.required = true; });
       houjinFields.forEach(function(f){ f.required = false; });
+
       memberType.value = 'kojin';
     }
 
     function activateHoujin() {
-      btnHoujin.classList.add('active');   btnHoujin.setAttribute('aria-pressed', 'true');
-      btnKojin.classList.remove('active'); btnKojin.setAttribute('aria-pressed', 'false');
+      /* button states */
+      btnHoujin.classList.add('active');
+      btnHoujin.setAttribute('aria-pressed', 'true');
+      btnKojin.classList.remove('active');
+      btnKojin.setAttribute('aria-pressed', 'false');
+
+      /* show/hide groups */
       grpHoujin.style.display = '';
       grpKojin.style.display  = 'none';
+
+      /* required: restore houjin, remove kojin */
       houjinFields.forEach(function(f){ f.required = true; });
       kojinFields.forEach(function(f){ f.required = false; });
+
       memberType.value = 'houjin';
     }
 
     btnKojin.addEventListener('click', activateKojin);
     btnHoujin.addEventListener('click', activateHoujin);
 
-    /* initialise: houjin fields must NOT be required on load */
+    /* initialise: kojin fields are required (already set in HTML),
+       houjin fields must NOT be required on load */
     houjinFields.forEach(function(f){ f.required = false; });
   })();
 
@@ -868,17 +889,12 @@
     }, 420);
   });
 
-  /* postal auto-format */
+  /* postal auto-format — runs only when kojin group is visible */
   document.getElementById('postal_code').addEventListener('input', function(){
+    /* guard: only format when the field's group is displayed */
+    if (document.getElementById('grpKojin').style.display === 'none') return;
     var v = this.value.replace(/\D/g,'').slice(0,7);
     this.value = v.length > 3 ? v.slice(0,3)+'-'+v.slice(3) : v;
-  });
-
-  /* select: shrink placeholder text, restore on real selection */
-  document.querySelectorAll('.field__sel').forEach(function(sel){
-    function update(){ sel.classList.toggle('has-value', sel.value !== ''); }
-    sel.addEventListener('change', update);
-    update();
   });
 
   /* phone auto-format */

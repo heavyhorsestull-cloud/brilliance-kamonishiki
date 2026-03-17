@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>加茂錦酒造 | Flagship</title>
+  <title>加茂錦酒造 | Flagship — Checkbox</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -315,8 +315,6 @@
       caret-color: var(--gold);
     }
     .field__input::placeholder { color: rgba(78,73,68,0.45); font-weight: 200; font-size: 0.95rem; }
-    .field__sel { font-size: 0.88rem; }
-    .field__sel.has-value { font-size: 1.05rem; }
     .field__sel {
       cursor: pointer;
       background-image: url("data:image/svg+xml,%3Csvg width='8' height='5' viewBox='0 0 8 5' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0L4 5L8 0' stroke='%234e4944' stroke-width='0.7' fill='none'/%3E%3C/svg%3E");
@@ -464,7 +462,6 @@
       .panel__logo {
         height: 88px;
         margin-bottom: 1.6rem;
-        /* override desktop animation to avoid fighting mobile layout */
         animation: fadeIn 1.2s ease 0.2s both;
       }
 
@@ -553,7 +550,7 @@
       .intro__text {
         text-align: center;
         text-wrap: wrap;
-        letter-spacing: 0.02em; /* 文字幅を詰めてスマホ画面に収める */
+        letter-spacing: 0.02em;
       }
 
       .form-sec {
@@ -568,12 +565,6 @@
       }
 
       .field-row { grid-template-columns: 1fr; }
-
-      .seg-toggle__btn {
-        font-size: 0.72rem;
-        letter-spacing: 0.1em;
-        padding: 0.72rem 0.3rem;
-      }
     }
 
     /* narrow phones: tighten BRILLIANCE letter-spacing */
@@ -590,53 +581,42 @@
     }
 
     /* ═══════════════════════════════════════
-       SEGMENTED TOGGLE  (個人 / 飲食店・業者)
+       BUSINESS CHECKBOX ROW
     ═══════════════════════════════════════ */
 
-    .toggle-wrap {
-      margin-bottom: 2rem;
-    }
-
-    .seg-toggle {
+    .biz-check-row {
       display: flex;
-      width: 100%;
-      border: 1px solid rgba(78,73,68,0.4);
-      position: relative;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 1.4rem 0 1.8rem;
+      border-bottom: 1px solid rgba(78,73,68,0.4);
+      margin-bottom: 0;
     }
 
-    .seg-toggle__btn {
-      flex: 1;
+    .biz-check-box {
+      flex-shrink: 0;
+      width: 14px; height: 14px;
+      appearance: none;
+      -webkit-appearance: none;
+      border: 1px solid var(--dim);
       background: transparent;
-      border: none;
-      outline: none;
       cursor: pointer;
-      padding: 0.72rem 0.5rem;
+      position: relative;
+      transition: border-color 0.3s;
+    }
+    .biz-check-box:checked { border-color: var(--gold-l); }
+    .biz-check-box:checked::after { content: ''; position: absolute; inset: 2px; background: var(--gold); }
+
+    .biz-check-lbl {
       font-family: 'Zen Kaku Gothic New', sans-serif;
       font-weight: 300;
-      font-size: 0.76rem;
-      letter-spacing: 0.3em;
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
       color: var(--mid);
-      position: relative;
-      transition: color 0.28s;
+      cursor: pointer;
+      transition: color 0.3s;
     }
-
-    .seg-toggle__btn + .seg-toggle__btn {
-      border-left: 1px solid rgba(78,73,68,0.4);
-    }
-
-    .seg-toggle__btn.active {
-      color: var(--text);
-    }
-
-    .seg-toggle__btn.active::after {
-      content: '';
-      position: absolute;
-      bottom: -1px;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: var(--gold);
-    }
+    .biz-check-box:checked ~ .biz-check-lbl { color: var(--text); }
 
   </style>
 </head>
@@ -681,14 +661,6 @@
         <input type="hidden" name="ref" id="refCode" value="direct">
         <input type="hidden" name="member_type" id="memberType" value="kojin">
 
-        <!-- ══ SEGMENTED TOGGLE ══ -->
-        <div class="toggle-wrap" role="group" aria-label="登録区分">
-          <div class="seg-toggle" id="segToggle">
-            <button type="button" class="seg-toggle__btn active" id="btnKojin" aria-pressed="true">個人のお客様</button>
-            <button type="button" class="seg-toggle__btn" id="btnHoujin" aria-pressed="false">飲食店のお客様</button>
-          </div>
-        </div>
-
         <!-- ══ 共通フィールド（上）: 姓名・フリガナ・メール・電話 ══ -->
         <div class="field-row">
           <div class="field">
@@ -722,21 +694,26 @@
           <input class="field__input" type="tel" id="phone" name="phone" required placeholder="090-0000-0000" autocomplete="tel" maxlength="13">
         </div>
 
-        <!-- ══ 共通: 郵便番号 ══ -->
-        <div class="field">
-          <label class="field__lbl" for="postal_code">郵便番号<span class="field__req">*</span></label>
-          <input class="field__input" type="text" id="postal_code" name="postal_code" required placeholder="000-0000" autocomplete="postal-code" maxlength="8" inputmode="numeric">
-        </div>
-
-        <!-- ══ 個人グループ: ご住所 (default: visible) ══ -->
+        <!-- ══ 個人グループ: 郵便番号・ご住所 (default: visible) ══ -->
         <div id="grpKojin">
+          <div class="field">
+            <label class="field__lbl" for="postal_code">郵便番号<span class="field__req">*</span></label>
+            <input class="field__input" type="text" id="postal_code" name="postal_code" required placeholder="000-0000" autocomplete="postal-code" maxlength="8" inputmode="numeric">
+          </div>
+
           <div class="field">
             <label class="field__lbl" for="address">ご住所<span class="field__req">*</span></label>
             <input class="field__input" type="text" id="address" name="address" required placeholder="都道府県 市区町村 番地" autocomplete="street-address">
           </div>
         </div>
 
-        <!-- ══ 飲食店グループ: 店舗名・店舗住所 (default: hidden) ══ -->
+        <!-- ══ 飲食店・業者チェックボックス ══ -->
+        <div class="biz-check-row">
+          <input class="biz-check-box" type="checkbox" id="bizCheck" name="is_business">
+          <label class="biz-check-lbl" for="bizCheck">飲食店・業者の方はこちら</label>
+        </div>
+
+        <!-- ══ 飲食店・業者グループ: 店舗名・店舗住所 (default: hidden) ══ -->
         <div id="grpHoujin" style="display:none">
           <div class="field">
             <label class="field__lbl" for="shop_name">店舗名<span class="field__req">*</span></label>
@@ -804,10 +781,9 @@
   /* ref tracking */
   (function(){ document.getElementById('refCode').value = new URLSearchParams(location.search).get('ref')||'direct'; })();
 
-  /* ── SEGMENTED TOGGLE ── */
+  /* ── BUSINESS CHECKBOX TOGGLE ── */
   (function(){
-    var btnKojin   = document.getElementById('btnKojin');
-    var btnHoujin  = document.getElementById('btnHoujin');
+    var bizCheck   = document.getElementById('bizCheck');
     var grpKojin   = document.getElementById('grpKojin');
     var grpHoujin  = document.getElementById('grpHoujin');
     var memberType = document.getElementById('memberType');
@@ -815,31 +791,26 @@
     var kojinFields  = grpKojin.querySelectorAll('input');
     var houjinFields = grpHoujin.querySelectorAll('input');
 
-    function activateKojin() {
-      btnKojin.classList.add('active');    btnKojin.setAttribute('aria-pressed', 'true');
-      btnHoujin.classList.remove('active'); btnHoujin.setAttribute('aria-pressed', 'false');
-      grpKojin.style.display  = '';
-      grpHoujin.style.display = 'none';
-      kojinFields.forEach(function(f){ f.required = true; });
-      houjinFields.forEach(function(f){ f.required = false; });
-      memberType.value = 'kojin';
-    }
-
-    function activateHoujin() {
-      btnHoujin.classList.add('active');   btnHoujin.setAttribute('aria-pressed', 'true');
-      btnKojin.classList.remove('active'); btnKojin.setAttribute('aria-pressed', 'false');
-      grpHoujin.style.display = '';
-      grpKojin.style.display  = 'none';
-      houjinFields.forEach(function(f){ f.required = true; });
-      kojinFields.forEach(function(f){ f.required = false; });
-      memberType.value = 'houjin';
-    }
-
-    btnKojin.addEventListener('click', activateKojin);
-    btnHoujin.addEventListener('click', activateHoujin);
-
     /* initialise: houjin fields must NOT be required on load */
     houjinFields.forEach(function(f){ f.required = false; });
+
+    bizCheck.addEventListener('change', function(){
+      if (this.checked) {
+        /* 飲食店・業者モード */
+        grpKojin.style.display  = 'none';
+        grpHoujin.style.display = '';
+        kojinFields.forEach(function(f){ f.required = false; });
+        houjinFields.forEach(function(f){ f.required = true; });
+        memberType.value = 'houjin';
+      } else {
+        /* 個人モード */
+        grpKojin.style.display  = '';
+        grpHoujin.style.display = 'none';
+        kojinFields.forEach(function(f){ f.required = true; });
+        houjinFields.forEach(function(f){ f.required = false; });
+        memberType.value = 'kojin';
+      }
+    });
   })();
 
   /* checkbox → enable submit */
@@ -853,7 +824,7 @@
     var data = Object.fromEntries(new FormData(this).entries());
     console.log('[BRILLIANCE WL]', data);
     var f = this;
-    var h = f.previousElementSibling; /* form heading div */
+    var h = f.previousElementSibling;
     [f, h].forEach(function(el){
       if (!el) return;
       el.style.transition = 'opacity 0.4s';
@@ -870,15 +841,9 @@
 
   /* postal auto-format */
   document.getElementById('postal_code').addEventListener('input', function(){
+    if (document.getElementById('grpKojin').style.display === 'none') return;
     var v = this.value.replace(/\D/g,'').slice(0,7);
     this.value = v.length > 3 ? v.slice(0,3)+'-'+v.slice(3) : v;
-  });
-
-  /* select: shrink placeholder text, restore on real selection */
-  document.querySelectorAll('.field__sel').forEach(function(sel){
-    function update(){ sel.classList.toggle('has-value', sel.value !== ''); }
-    sel.addEventListener('change', update);
-    update();
   });
 
   /* phone auto-format */
