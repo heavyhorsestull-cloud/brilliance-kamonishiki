@@ -20,7 +20,7 @@
       --gold-l: #886c28;
       --gline:  rgba(196,160,80,0.14);
       --text:   #ede8df;
-      --mid:    #948e84;
+      --mid:    #aca69b;
       --dim:    #4e4944;
     }
 
@@ -83,7 +83,7 @@
     }
 
     .panel__logo {
-      height: 64px;
+      height: 74px;
       width: auto;
       margin-bottom: 1.4rem;
       opacity: 0;
@@ -306,7 +306,7 @@
       color: var(--text);
       font-family: 'Noto Serif JP', serif;
       font-weight: 300;
-      font-size: 1.05rem;
+      font-size: 0.9rem;
       letter-spacing: 0.04em;
       padding: 0.08rem 0;
       appearance: none;
@@ -314,9 +314,9 @@
       border-radius: 0;
       caret-color: var(--gold);
     }
-    .field__input::placeholder { color: rgba(78,73,68,0.45); font-weight: 200; font-size: 0.95rem; }
-    .field__sel { font-size: 0.88rem; }
-    .field__sel.has-value { font-size: 1.05rem; }
+    .field__input::placeholder { color: rgba(78,73,68,0.45); font-weight: 200; font-size: 0.88rem; }
+    .field__sel { font-size: 0.8rem; }
+    .field__sel.has-value { font-size: 0.9rem; }
     .field__sel {
       cursor: pointer;
       background-image: url("data:image/svg+xml,%3Csvg width='8' height='5' viewBox='0 0 8 5' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0L4 5L8 0' stroke='%234e4944' stroke-width='0.7' fill='none'/%3E%3C/svg%3E");
@@ -462,7 +462,7 @@
 
       /* logo: larger for mobile hero */
       .panel__logo {
-        height: 88px;
+        height: 100px;
         margin-bottom: 1.6rem;
         /* override desktop animation to avoid fighting mobile layout */
         animation: fadeIn 1.2s ease 0.2s both;
@@ -636,6 +636,26 @@
       right: 0;
       height: 1px;
       background: var(--gold);
+    }
+
+    /* ═══════════════════════════════════════
+       PC FONT SIZE BOOST  (>860px)
+       INFO ラベル以外のコンテンツ文字を拡大
+    ═══════════════════════════════════════ */
+
+    @media (min-width: 861px) {
+      .intro__text       { font-size: clamp(0.96rem, 1.6vw, 1.08rem); }
+      .form-title        { font-size: clamp(1.6rem, 3vw, 2.2rem); }
+      .form-sub          { font-size: 0.92rem; }
+      .field__lbl        { font-size: 0.82rem; }
+      .field__input,
+      .field__sel.has-value { font-size: 1rem; }
+      .field__sel        { font-size: 0.88rem; }
+      .seg-toggle__btn   { font-size: 0.82rem; }
+      .check-lbl         { font-size: 0.88rem; }
+      .btn               { font-size: 0.92rem; }
+      .form-note         { font-size: 0.8rem; }
+      .thankyou__body    { font-size: 1.06rem; }
     }
 
   </style>
