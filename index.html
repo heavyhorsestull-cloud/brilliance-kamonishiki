@@ -401,6 +401,15 @@
     .field.invalid .field__lbl { color: #b06050; }
     .check-row.invalid .check-lbl { color: #b06050; }
     .check-row.invalid .check-box { border-color: #b06050; }
+    .field__err {
+      display: block;
+      font-family: 'Zen Kaku Gothic New', sans-serif;
+      font-weight: 300;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      color: #b06050;
+      margin-top: 0.3rem;
+    }
 
     .thankyou { display: none; padding: 2rem 0; text-align: center; }
     .thankyou.on { display: block; animation: fadeUp 0.9s ease forwards; }
@@ -855,18 +864,40 @@
   var btn = document.getElementById('submitBtn');
   box.addEventListener('change', function(){ btn.disabled = !this.checked; });
 
-  /* バリデーション */
+  /* バリデーション helpers */
+  var RE_KATAKANA = /^[ァ-ヶー\s　]+$/;
+  var RE_EMAIL    = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  function setFieldError(input, msg) {
+    var wrap = input.closest('.field');
+    if (!wrap) return;
+    wrap.classList.add('invalid');
+    var err = wrap.querySelector('.field__err');
+    if (!err) {
+      err = document.createElement('span');
+      err.className = 'field__err';
+      wrap.appendChild(err);
+    }
+    err.textContent = msg;
+  }
+
+  function clearFieldError(input) {
+    var wrap = input.closest('.field') || input.closest('.check-row');
+    if (!wrap) return;
+    wrap.classList.remove('invalid');
+    var err = wrap.querySelector('.field__err');
+    if (err) err.textContent = '';
+  }
+
   function validateForm(form) {
     var valid = true;
     var firstInvalid = null;
 
-    /* required な input/select を走査（hiddenは除外） */
+    /* required チェック（hidden除外） */
     form.querySelectorAll('[required]').forEach(function(input) {
       if (input.type === 'hidden') return;
-
+      clearFieldError(input);
       var wrap = input.closest('.field') || input.closest('.check-row');
-      if (wrap) wrap.classList.remove('invalid');
-
       var empty = input.type === 'checkbox' ? !input.checked : !input.value.trim();
       if (empty) {
         valid = false;
@@ -875,20 +906,36 @@
       }
     });
 
+    /* フォーマットチェック（値がある場合のみ） */
+    ['last_name_kana', 'first_name_kana'].forEach(function(id) {
+      var input = document.getElementById(id);
+      if (!input || !input.value.trim()) return;
+      if (!RE_KATAKANA.test(input.value.trim())) {
+        setFieldError(input, 'カタカナで入力してください');
+        valid = false;
+        if (!firstInvalid) firstInvalid = input.closest('.field') || input;
+      }
+    });
+
+    var emailInput = document.getElementById('email');
+    if (emailInput && emailInput.value.trim() && !RE_EMAIL.test(emailInput.value.trim())) {
+      setFieldError(emailInput, '正しいメールアドレスを入力してください');
+      valid = false;
+      if (!firstInvalid) firstInvalid = emailInput.closest('.field') || emailInput;
+    }
+
     if (firstInvalid) {
       firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
     return valid;
   }
 
-  /* 入力したらエラー状態を解除 */
+  /* 入力・変更したらエラー状態を解除 */
   document.getElementById('registrationForm').addEventListener('input', function(e) {
-    var wrap = e.target.closest('.field') || e.target.closest('.check-row');
-    if (wrap) wrap.classList.remove('invalid');
+    clearFieldError(e.target);
   });
   document.getElementById('registrationForm').addEventListener('change', function(e) {
-    var wrap = e.target.closest('.field') || e.target.closest('.check-row');
-    if (wrap) wrap.classList.remove('invalid');
+    clearFieldError(e.target);
   });
 
   /* form submit */
