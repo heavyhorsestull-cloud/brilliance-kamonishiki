@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>加茂錦酒造 | Flagship — GSAP v2</title>
+
+  <style>
+    /* ── コピー・選択・ドラッグ禁止 ── */
+    * {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+    /* フォーム入力欄のみ許可 */
+    input, select, textarea {
+      -webkit-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+      user-select: text;
+      -webkit-user-drag: auto;
+    }
+  </style>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400;500&family=Zen+Kaku+Gothic+New:wght@300;400&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <style>
+
+    :root {
+      --bg:     #070707;
+      --panel:  #0a0a0a;
+      --gold:   #c4a050;
+      --gold-h: #d8b86a;
+      --gold-l: #886c28;
+      --gline:  rgba(196,160,80,0.14);
+      --text:   #ede8df;
+      --mid:    #aca69b;
+      --dim:    #4e4944;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Serif JP', 'YuMincho', 'Yu Mincho', serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+    }
+
+    /* grain overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9000;
+      opacity: 0.018;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)'/%3E%3C/svg%3E");
+      background-size: 128px 128px;
+    }
+
+
+    /* ═══════════════════════════════════════
+       DESKTOP SPLIT LAYOUT  (≥860px)
+    ═══════════════════════════════════════ */
+
+    .split {
+      display: flex;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    /* LEFT — sticky branding panel */
+    .panel {
+      position: sticky;
+      top: 0;
+      width: 33.333vw;
+      height: 100svh;
+      flex-shrink: 0;
+      background: var(--panel);
+      border-right: 1px solid var(--gline);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2.5rem;
+      text-align: center;
+    }
+
+    .panel__logo {
+      height: 96px;
+      width: auto;
+      margin-bottom: 2rem;
+    }
+
+    .panel__rule {
+      width: 36px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold-l), transparent);
+      margin-bottom: 2rem;
+    }
+
+    .panel__sub {
+      font-weight: 200;
+      font-size: clamp(0.86rem, 1.4vw, 1rem);
+      letter-spacing: 0.22em;
+      color: var(--mid);
+      margin-right: -0.22em;
+      margin-bottom: 1rem;
+    }
+
+    .panel__brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      letter-spacing: 0.2em;
+      color: var(--gold-h);
+      line-height: 1;
+      margin-right: -0.2em;
+      margin-bottom: 2rem;
+    }
+
+    .panel__detail {
+      font-weight: 200;
+      font-size: clamp(0.76rem, 1.2vw, 0.88rem);
+      letter-spacing: 0.14em;
+      color: var(--mid);
+      line-height: 2.2;
+      margin-bottom: 0.5rem;
+    }
+
+    .panel__season {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(0.84rem, 1.3vw, 0.96rem);
+      letter-spacing: 0.18em;
+      color: var(--mid);
+    }
+
+    .panel__link {
+      position: absolute;
+      bottom: 2.2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+      font-family: 'Zen Kaku Gothic New', sans-serif;
+      font-weight: 300;
+      font-size: 0.72rem;
+      letter-spacing: 0.45em;
+      color: var(--mid);
+      text-transform: uppercase;
+      transition: color 0.4s;
+      white-space: nowrap;
+    }
+    .panel__link:hover { color: var(--gold); }
+    .panel__link::after {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: currentColor;
+    }
+
+    /* RIGHT — scrollable content */
+    .content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* intro */
+    .intro {
+      padding: 7rem 2rem 6rem;
+      max-width: 740px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .intro__label {
+      font-family: 'Zen Kaku Gothic New', sans-serif;
+      font-weight: 300;
+      font-size: 0.9rem;
+      letter-spacing: 0.5em;
+      color: var(--mid);
+      text-transform: uppercase;
+      margin-bottom: 2.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+    }
+    .intro__label::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: var(--mid);
+      flex-shrink: 0;
+    }
+
+    .intro__text {
+      font-weight: 200;
+      font-size: clamp(0.84rem, 1.4vw, 0.96rem);
+      line-height: 2.9;
+      letter-spacing: 0.07em;
+      color: var(--mid);
+      line-break: strict;
+      text-wrap: wrap;
+      overflow-wrap: anywhere;
+    }
+    .intro__text p + p { margin-top: 1.6em; }
+
+    /* form section */
+    .form-sec {
+      border-top: 1px solid var(--gline);
+      padding: 5rem 2rem 8rem;
+      max-width: 740px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    /* フォーム入力部分は左揃えを維持 */
+    .form-sec form {
+      text-align: left;
+    }
+
+    .form-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(1.4rem, 2.8vw, 2rem);
+      letter-spacing: 0.18em;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-rule {
+      width: 32px;
+      height: 1px;
+      background: var(--gold-l);
+      margin: 1rem auto 0.6rem;
+    }
+
+    .form-sub {
+      font-family: 'Zen Kaku Gothic New', sans-serif;
+      font-weight: 300;
+      font-size: 0.84rem;
+      letter-spacing: 0.1em;
+      color: var(--mid);
+      line-height: 1.9;
+      margin-bottom: 2.8rem;
+    }
+
+    /* fields */
+    .field {
+      border-bottom: 1px solid rgba(78,73,68,0.4);
+      padding: 1.1rem 0 0.5rem;
+      transition: border-color 0.35s;
+    }
+    .field:focus-within { border-bottom-color: var(--gold-l); }
+
+    .field__lbl {
+      display: block;
+      font-family: 'Zen Kaku Gothic New', sans-serif;
+      font-weight: 300;
+      font-size: 0.74rem;
+      letter-spacing: 0.22em;
+      color: var(--mid);
+      margin-bottom: 0.38rem;
+      transition: color 0.35s;
+    }
+    .field:focus-within .field__lbl { color: var(--gold-l); }
+    .field__req { color: var(--gold-l); margin-left: 0.1em; }
+
+    .field__input {
+      display: block;
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 300;
+      font-size: 0.9rem;
+      letter-spacing: 0.04em;
+      padding: 0.08rem 0;
+      appearance: none;
+      -webkit-appearance: none;
+      border-radius: 0;
+      caret-color: var(--gold);
+    }
+    .field__input::placeholder { color: rgba(78,73,68,0.45); font-weight: 200; font-size: 0.88rem; }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 1rem 2rem;
+      background: transparent;
+      border: 1px solid var(--gold-l);
+      color: var(--gold);
+      font-family: 'Zen Kaku Gothic New', sans-serif;
+      font-weight: 300;
+      font-size: 0.86rem;
+      letter-spacing: 0.42em;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.4s, border-color 0.4s;
+    }
+    .btn__fill { position: absolute; inset: 0; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform 0.42s cubic-bezier(0.4,0,0.2,1); }
+    .btn__text { position: relative; z-index: 1; }
+    .btn:hover .btn__fill { transform: scaleX(1); }
+    .btn:hover { color: var(--bg); border-color: var(--gold); }
+
+    .form-note {
+      margin-top: 1.6rem;
+      font-family: 'Zen Kaku Gothic New', sans-serif;
+      font-weight: 300;
+      font-size: 0.74rem;
+      color: var(--mid);
+      line-height: 2.1;
+      letter-spacing: 0.06em;
+    }
+
+    /* バリデーションエラー状態 */
+    .field.invalid { border-bottom-color: #b06050; }
+    .field.invalid .field__lbl { color: #b06050; }
+    .field__err {
+      display: block;
+      font-family: 'Zen Kaku Gothic New', sans-serif;
+      font-weight: 300;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      color: #b06050;
+      margin-top: 0.3rem;
+    }
+
+    .thankyou { display: none; padding: 2rem 0; text-align: center; }
+    .thankyou.on { display: block; animation: fadeUp 0.9s ease forwards; }
+    .thankyou__en { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(1.4rem, 2.8vw, 2rem); letter-spacing: 0.18em; color: var(--text); margin-bottom: 0.5rem; }
+    .thankyou__line { width: 32px; height: 1px; background: var(--gold-l); margin: 1rem auto 0.6rem; }
+    .thankyou__body { font-family: 'Zen Kaku Gothic New', sans-serif; font-weight: 300; font-size: 0.84rem; letter-spacing: 0.1em; color: var(--mid); line-height: 2.4; }
+
+    /* desktop footer */
+    .footer {
+      padding: 2rem;
+      border-top: 1px solid var(--gline);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .footer__logo { height: 18px; width: auto; opacity: 0.2; }
+    .footer__copy { font-family: 'Zen Kaku Gothic New', sans-serif; font-weight: 300; font-size: 0.7rem; letter-spacing: 0.2em; color: var(--mid); }
+
+    /* reveal — GSAP ScrollTrigger で制御 */
+
+    @keyframes fadeUp { from { opacity:0; transform: translateY(14px); } to { opacity:1; transform: none; } }
+    @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+    @keyframes breathe {
+      0%, 100% { opacity: 0.25; transform: scaleY(0.75); transform-origin: top; }
+      50%       { opacity: 0.65; transform: scaleY(1); }
+    }
+
+
+    /* モバイルのみ改行 */
+    .mb-br { display: none; }
+
+    /* ═══════════════════════════════════════
+       MOBILE HERO OVERRIDE  (<860px)
+       パネルをフルスクリーンの中央揃えヒーローに変換
+    ═══════════════════════════════════════ */
+
+    @media (max-width: 860px) {
+
+      .mb-br { display: inline; }
+
+      .split {
+        display: block; /* single column */
+      }
+
+      /* panel → full-screen centered hero */
+      .panel {
+        position: relative;
+        width: 100%;
+        height: auto;
+        min-height: 100svh;
+        background: var(--bg);
+        border-right: none;
+        border-bottom: 1px solid var(--gline);
+        padding: 5rem 2rem 4rem;
+        overflow: hidden;
+      }
+
+      /* ambient radial glow */
+      .panel::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background:
+          radial-gradient(ellipse 70% 55% at 50% 38%, rgba(196,160,80,0.045) 0%, transparent 70%),
+          radial-gradient(ellipse 40% 30% at 50% 22%, rgba(196,160,80,0.028) 0%, transparent 60%);
+      }
+
+      /* logo: larger for mobile hero */
+      .panel__logo {
+        height: 124px;
+        margin-bottom: 2rem;
+      }
+
+      /* 日本を、醸す。 */
+      .panel__sub {
+        font-size: 0.94rem;
+        letter-spacing: 0.28em;
+        color: var(--mid);
+        margin-bottom: 1.6rem;
+      }
+
+      /* BRILLIANCE — large hero size */
+      .panel__brand {
+        font-size: clamp(2rem, 10vw, 7.5rem);
+        letter-spacing: 0.18em;
+        margin-right: -0.18em;
+        margin-bottom: 1.8rem;
+      }
+
+      .panel__detail {
+        font-size: min(0.92rem, calc((100vw - 68px) / 23));
+        letter-spacing: 0;
+        line-height: 2.4;
+      }
+
+      .panel__season {
+        font-size: 0.92rem;
+        margin-top: 0.4rem;
+      }
+
+      /* scroll hint — shown only on mobile */
+      .panel__link {
+        position: static;
+        transform: none;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.64rem;
+        letter-spacing: 0.5em;
+        margin-top: 2.4rem;
+      }
+      .panel__link::after {
+        content: '';
+        display: block;
+        width: 1px;
+        height: 32px;
+        background: linear-gradient(to bottom, var(--gold-l), transparent);
+        animation: breathe 2.6s ease-in-out infinite;
+      }
+
+      /* right content sections */
+      .intro {
+        padding: 5rem 2rem 4rem;
+        max-width: 100%;
+        margin: 0;
+        text-align: center;
+      }
+      .intro__label {
+        justify-content: center;
+      }
+      .intro__label::before { display: none; }
+
+      .intro__text {
+        text-align: center;
+        text-wrap: wrap;
+        letter-spacing: 0.02em;
+      }
+
+      .form-sec {
+        padding: 4rem 2rem 6rem;
+        max-width: 100%;
+        margin: 0;
+      }
+
+      .footer {
+        padding: 2rem;
+        justify-content: center;
+      }
+
+      .seg-toggle__btn {
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+        padding: 0.72rem 0.3rem;
+      }
+    }
+
+    /* narrow phones: tighten BRILLIANCE letter-spacing */
+    @media (max-width: 600px) {
+      .panel__brand { letter-spacing: 0.1em; margin-right: -0.1em; }
+    }
+
+
+    /* ═══════════════════════════════════════
+       SEGMENTED TOGGLE  (個人 / 飲食店)
+    ═══════════════════════════════════════ */
+
+    .toggle-wrap {
+      margin-bottom: 2rem;
+    }
+
+    .seg-toggle {
+      display: flex;
+      width: 100%;
+      border: 1px solid rgba(78,73,68,0.4);
+      position: relative;
+    }
+
+    .seg-toggle__btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 0.72rem 0.5rem;
+      font-family: 'Zen Kaku Gothic New', sans-serif;
+      font-weight: 300;
+      font-size: 0.76rem;
+      letter-spacing: 0.3em;
+      color: var(--mid);
+      position: relative;
+      transition: color 0.28s;
+    }
+
+    .seg-toggle__btn + .seg-toggle__btn {
+      border-left: 1px solid rgba(78,73,68,0.4);
+    }
+
+    .seg-toggle__btn.active {
+      color: var(--text);
+    }
+
+    .seg-toggle__btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    /* ═══════════════════════════════════════
+       PC FONT SIZE BOOST  (>860px)
+    ═══════════════════════════════════════ */
+
+    @media (min-width: 861px) {
+      .intro__text       { font-size: clamp(0.96rem, 1.6vw, 1.08rem); }
+      .form-title        { font-size: clamp(1.6rem, 3vw, 2.2rem); }
+      .form-sub          { font-size: 0.92rem; }
+      .field__lbl        { font-size: 0.82rem; }
+      .field__input      { font-size: 1rem; }
+      .seg-toggle__btn   { font-size: 0.82rem; }
+      .btn               { font-size: 0.92rem; }
+      .form-note         { font-size: 0.8rem; }
+      .thankyou__en      { font-size: clamp(1.6rem, 3vw, 2.2rem); }
+      .thankyou__body    { font-size: 0.92rem; }
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="split">
+
+  <!-- ══════ LEFT PANEL / MOBILE HERO ══════ -->
+  <aside class="panel">
+    <img class="panel__logo" src="logo.svg" alt="加茂錦 紋章" draggable="false" onerror="this.style.display='none'">
+    <div class="panel__rule" aria-hidden="true"></div>
+    <p class="panel__sub">日本を、醸す。</p>
+    <h1 class="panel__brand">BRILLIANCE</h1>
+    <p class="panel__detail">美しい稲作を、生産者から杜氏へ。<br>届けたい日本の心がある。</p>
+    <p class="panel__season">Coming Soon, Winter 2026</p>
+    <a class="panel__link" href="#register">REGISTER</a>
+  </aside>
+
+  <!-- ══════ RIGHT CONTENT ══════ -->
+  <div class="content">
+
+    <section class="intro" aria-label="ご案内">
+      <p class="intro__label">Info</p>
+      <div class="intro__text">
+        <p>当蔵は「日本を、醸す。」をテーマに、新潟、兵庫、岡山、秋田…<span class="mb-br"><br></span>全国各地の生産者のもとへ足を運び、その土地が育む多彩な酒造好適米の個性を一つの蔵から醸しています。</p>
+        <p>國酒を醸す者として、生産者の気概と日本の美しい田園風景を<span class="mb-br"><br></span>一口一滴に込め、愛飲家の皆さまにお届けしたい。</p>
+        <p>好みの壁を超え、世代や国籍にかかわらず、<span class="mb-br"><br></span>これからも心を動かす日本酒を目指して参ります。</p>
+      </div>
+    </section>
+
+    <section class="form-sec" id="register" aria-labelledby="form-title">
+
+      <div>
+        <h2 class="form-title" id="form-title">Waiting List</h2>
+        <div class="form-rule" aria-hidden="true"></div>
+        <p class="form-sub">ご登録いただいた方へ、蔵からご案内いたします。<br>全ての醸造作品は、最高の状態で蔵元より直送いたします。</p>
+      </div>
+
+      <form id="registrationForm" novalidate>
+        <input type="hidden" name="ref" id="refCode" value="direct">
+        <input type="hidden" name="member_type" id="memberType" value="kojin">
+
+        <!-- ══ SEGMENTED TOGGLE ══ -->
+        <div class="toggle-wrap" role="group" aria-label="登録区分">
+          <div class="seg-toggle" id="segToggle">
+            <button type="button" class="seg-toggle__btn active" id="btnKojin" aria-pressed="true">個人のお客様</button>
+            <button type="button" class="seg-toggle__btn" id="btnHoujin" aria-pressed="false">飲食店のお客様</button>
+          </div>
+        </div>
+
+        <!-- ══ メールアドレス ══ -->
+        <div class="field">
+          <label class="field__lbl" for="email">メールアドレス<span class="field__req">*</span></label>
+          <input class="field__input" type="email" id="email" name="email" required placeholder="your@email.com" autocomplete="email">
+        </div>
+
+        <!-- ══ 店舗名（飲食店のみ） ══ -->
+        <div id="shopGroup" style="display:none">
+          <div class="field">
+            <label class="field__lbl" for="shop_name">店舗名<span class="field__req">*</span></label>
+            <input class="field__input" type="text" id="shop_name" name="shop_name" placeholder="店舗名">
+          </div>
+        </div>
+
+        <button class="btn" type="submit" id="submitBtn" style="margin-top:2rem">
+          <span class="btn__fill" aria-hidden="true"></span>
+          <span class="btn__text">登録する</span>
+        </button>
+
+        <p class="form-note">
+          ※ 登録は無料です。登録によって購入の義務は一切生じません。<br>
+          ※ お申し込み多数の場合は、抽選とさせていただきます。
+        </p>
+      </form>
+
+      <div class="thankyou" id="thankYou" role="status" aria-live="polite">
+        <p class="thankyou__en">Thank You</p>
+        <div class="thankyou__line" aria-hidden="true"></div>
+        <p class="thankyou__body">
+          <br>ご登録ありがとうございます。<br><br>
+          蔵から直接ご案内をお届けいたします。<br><br>
+          今しばらくお待ちくださいませ。
+        </p>
+      </div>
+
+    </section>
+
+    <footer class="footer">
+      <img class="footer__logo" src="logo.svg" alt="" aria-hidden="true" onerror="this.style.display='none'">
+      <p class="footer__copy">© 2026 加茂錦酒造株式会社</p>
+    </footer>
+
+  </div><!-- .content -->
+</div><!-- .split -->
+
+<script>
+  /* ref tracking */
+  (function(){ document.getElementById('refCode').value = new URLSearchParams(location.search).get('ref')||'direct'; })();
+
+  /* ── SEGMENTED TOGGLE ── */
+  (function(){
+    var btnKojin   = document.getElementById('btnKojin');
+    var btnHoujin  = document.getElementById('btnHoujin');
+    var shopGroup  = document.getElementById('shopGroup');
+    var shopInput  = document.getElementById('shop_name');
+    var memberType = document.getElementById('memberType');
+
+    function activateKojin() {
+      btnKojin.classList.add('active');    btnKojin.setAttribute('aria-pressed', 'true');
+      btnHoujin.classList.remove('active'); btnHoujin.setAttribute('aria-pressed', 'false');
+      shopGroup.style.display = 'none';
+      shopInput.required = false;
+      memberType.value = 'kojin';
+    }
+
+    function activateHoujin() {
+      btnHoujin.classList.add('active');   btnHoujin.setAttribute('aria-pressed', 'true');
+      btnKojin.classList.remove('active'); btnKojin.setAttribute('aria-pressed', 'false');
+      shopGroup.style.display = '';
+      shopInput.required = true;
+      memberType.value = 'houjin';
+    }
+
+    btnKojin.addEventListener('click', activateKojin);
+    btnHoujin.addEventListener('click', activateHoujin);
+  })();
+
+  /* バリデーション helpers */
+  var RE_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  function setFieldError(input, msg) {
+    var wrap = input.closest('.field');
+    if (!wrap) return;
+    wrap.classList.add('invalid');
+    var err = wrap.querySelector('.field__err');
+    if (!err) {
+      err = document.createElement('span');
+      err.className = 'field__err';
+      wrap.appendChild(err);
+    }
+    err.textContent = msg;
+  }
+
+  function clearFieldError(input) {
+    var wrap = input.closest('.field');
+    if (!wrap) return;
+    wrap.classList.remove('invalid');
+    var err = wrap.querySelector('.field__err');
+    if (err) err.textContent = '';
+  }
+
+  function validateForm(form) {
+    var valid = true;
+    var firstInvalid = null;
+
+    /* required チェック */
+    form.querySelectorAll('[required]').forEach(function(input) {
+      if (input.type === 'hidden') return;
+      clearFieldError(input);
+      if (!input.value.trim()) {
+        valid = false;
+        var wrap = input.closest('.field');
+        if (wrap) wrap.classList.add('invalid');
+        if (!firstInvalid) firstInvalid = wrap || input;
+      }
+    });
+
+    /* メール形式チェック */
+    var emailInput = document.getElementById('email');
+    if (emailInput && emailInput.value.trim() && !RE_EMAIL.test(emailInput.value.trim())) {
+      setFieldError(emailInput, '正しいメールアドレスを入力してください');
+      valid = false;
+      if (!firstInvalid) firstInvalid = emailInput.closest('.field') || emailInput;
+    }
+
+    if (firstInvalid) {
+      firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    return valid;
+  }
+
+  /* 入力したらエラー状態を解除 */
+  document.getElementById('registrationForm').addEventListener('input', function(e) {
+    clearFieldError(e.target);
+  });
+
+  /* form submit */
+  document.getElementById('registrationForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    if (!validateForm(this)) return;
+
+    var data = Object.fromEntries(new FormData(this).entries());
+    console.log('[BRILLIANCE WL]', data);
+    var f = this;
+    var h = f.previousElementSibling;
+    [f, h].forEach(function(el){
+      if (!el) return;
+      el.style.transition = 'opacity 0.4s';
+      el.style.opacity = '0';
+    });
+    setTimeout(function(){
+      f.style.display = 'none';
+      if (h) h.style.display = 'none';
+      var ty = document.getElementById('thankYou');
+      ty.classList.add('on');
+      ty.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 420);
+  });
+
+  /* ── GSAP アニメーション ── */
+  (function(){
+    gsap.registerPlugin(ScrollTrigger);
+
+    var tl = gsap.timeline({ delay: 0.15 });
+    tl.from('.panel__logo',   { opacity: 0, y: 18, duration: 1.4, ease: 'power3.out' })
+      .from('.panel__rule',   { opacity: 0, scaleX: 0, transformOrigin: 'left center', duration: 1.0, ease: 'power2.inOut' }, '-=0.8')
+      .from('.panel__sub',    { opacity: 0, y: 12, duration: 1.1, ease: 'power3.out' }, '-=0.6')
+      .fromTo('.panel__brand',
+        { opacity: 0, y: 16, filter: 'blur(8px)' },
+        { opacity: 1, y: 0,  filter: 'blur(0px)', duration: 1.8, ease: 'power3.out' }, '-=0.7')
+      .from('.panel__detail', { opacity: 0, y: 12, duration: 1.1, ease: 'power2.out' }, '-=0.9')
+      .from('.panel__season', { opacity: 0, y: 10, duration: 1.0, ease: 'power2.out' }, '-=0.7')
+      .from('.panel__link',   { opacity: 0, duration: 1.2, ease: 'power1.inOut' }, '-=0.6');
+
+    gsap.to('.panel__logo', { y: -6, duration: 3.5, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 2 });
+
+    gsap.from('.intro__label', {
+      scrollTrigger: { trigger: '.intro__label', start: 'top 88%' },
+      opacity: 0, y: 18, duration: 1.0, ease: 'power3.out'
+    });
+    gsap.from('.intro__text p', {
+      scrollTrigger: { trigger: '.intro__text', start: 'top 85%' },
+      opacity: 0, y: 16, duration: 1.0, stagger: 0.18, ease: 'power3.out'
+    });
+    gsap.from('.form-title', {
+      scrollTrigger: { trigger: '.form-title', start: 'top 88%' },
+      opacity: 0, y: 18, duration: 1.0, ease: 'power3.out'
+    });
+    gsap.from('.form-rule', {
+      scrollTrigger: { trigger: '.form-rule', start: 'top 90%' },
+      opacity: 0, scaleX: 0, transformOrigin: 'left center', duration: 0.8, ease: 'power2.inOut'
+    });
+    gsap.from('.form-sub', {
+      scrollTrigger: { trigger: '.form-sub', start: 'top 88%' },
+      opacity: 0, y: 14, duration: 0.9, ease: 'power2.out'
+    });
+    gsap.from('.toggle-wrap, .field, .btn, .form-note', {
+      scrollTrigger: { trigger: '#registrationForm', start: 'top 82%' },
+      opacity: 0, y: 14, duration: 0.7, stagger: 0.08, ease: 'power2.out'
+    });
+  })();
+
+  /* ── コピー・ドラッグ・右クリック禁止 ── */
+  document.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+  document.addEventListener('dragstart',   function(e){ e.preventDefault(); });
+  document.addEventListener('selectstart', function(e){
+    var t = e.target;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'SELECT' || t.tagName === 'TEXTAREA')) return;
+    e.preventDefault();
+  });
+  document.addEventListener('keydown', function(e){
+    var t = document.activeElement;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'SELECT' || t.tagName === 'TEXTAREA')) return;
+    if ((e.ctrlKey || e.metaKey) && ['c','a','s','u','p'].indexOf(e.key.toLowerCase()) !== -1) {
+      e.preventDefault();
+    }
+  });
+</script>
+
+</body>
+</html>
