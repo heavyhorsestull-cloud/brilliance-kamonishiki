@@ -388,6 +388,8 @@
 
     /* モバイルのみ改行 */
     .mb-br { display: none; }
+    /* PC のみ改行 */
+    .pc-br { display: inline; }
 
     /* ═══════════════════════════════════════
        MOBILE HERO OVERRIDE  (<860px)
@@ -489,6 +491,14 @@
       .intro__text {
         text-wrap: wrap;
         letter-spacing: 0.02em;
+        font-size: 0.82rem;
+        line-height: 2.6;
+      }
+
+      .pc-br { display: none; }
+
+      .form-sub {
+        font-size: 0.78rem;
       }
 
       .form-sec {
@@ -602,9 +612,9 @@
       <div class="intro__rule" aria-hidden="true"></div>
 
       <div class="intro__text">
-        <p>当蔵は「日本を、醸す。」をテーマに、<br>新潟、兵庫、岡山、秋田…全国各地の生産者のもとへ足を運び、<br>その土地が育む多彩な酒造好適米の個性を<br>一つの蔵から醸しています。</p>
-        <p>國酒を醸す者として、生産者の気概と<br>日本の美しい田園風景を一口一滴に込め、<br>愛飲家の皆さまにお届けしたい。</p>
-        <p>好みの壁を超え、世代や国籍にかかわらず、<br>これからも心を動かす日本酒を目指して参ります。</p>
+        <p>当蔵は「日本を、醸す。」をテーマに、<br class="pc-br">新潟、兵庫、岡山、秋田…全国各地の生産者のもとへ足を運び、<br class="pc-br">その土地が育む多彩な酒造好適米の個性を<br class="pc-br">一つの蔵から醸しています。</p>
+        <p>國酒を醸す者として、生産者の気概と<br class="pc-br">日本の美しい田園風景を一口一滴に込め、<br class="pc-br">愛飲家の皆さまにお届けしたい。</p>
+        <p>好みの壁を超え、世代や国籍にかかわらず、<br class="pc-br">これからも心を動かす日本酒を目指して参ります。</p>
         <div class="intro__founder">
           <p>加茂錦酒造株式会社</p>
           <p>代表取締役 / 醸造責任者</p>
@@ -616,7 +626,7 @@
     <section class="form-sec" id="register" aria-labelledby="form-title">
 
       <div>
-        <p class="form-sub">ご登録いただいた方へ、蔵からご案内いたします。<br>全ての醸造作品は、最高の状態で蔵元より直送いたします。</p>
+        <p class="form-sub">ご登録いただいた方へ、蔵からご案内いたします。<br class="pc-br">全ての醸造作品は、最高の状態で蔵元より直送いたします。</p>
       </div>
 
       <form id="registrationForm" novalidate>
