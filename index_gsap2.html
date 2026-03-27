@@ -104,7 +104,7 @@
     }
 
     .panel__logo {
-      height: 96px;
+      height: 120px;
       width: auto;
       margin-bottom: 2rem;
     }
@@ -804,7 +804,6 @@
       .from('.panel__col-name, .panel__season', { opacity: 0, y: 10, duration: 1.0, ease: 'power2.out', stagger: 0.15 }, '-=0.7')
       .from('.panel__link',   { opacity: 0, duration: 1.2, ease: 'power1.inOut' }, '-=0.6');
 
-    gsap.to('.panel__logo', { y: -6, duration: 3.5, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 2 });
 
     gsap.from('.intro__rule', {
       scrollTrigger: { trigger: '.intro__rule', start: 'top 88%' },
