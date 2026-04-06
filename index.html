@@ -340,12 +340,16 @@
       cursor: pointer;
       position: relative;
       overflow: hidden;
-      transition: color 0.4s, border-color 0.4s;
+      transition: color 0.5s ease, border-color 0.5s ease, background-color 0.5s ease, box-shadow 0.5s ease;
     }
-    .btn__fill { position: absolute; inset: 0; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform 0.42s cubic-bezier(0.4,0,0.2,1); }
+    .btn__fill { display: none; }
     .btn__text { position: relative; z-index: 1; }
-    .btn:hover .btn__fill { transform: scaleX(1); }
-    .btn:hover { color: var(--bg); border-color: var(--gold); }
+    .btn:hover {
+      color: var(--text);
+      border-color: var(--gold);
+      background: rgba(196,160,80,0.12);
+      box-shadow: 0 0 18px rgba(196,160,80,0.10), inset 0 0 12px rgba(196,160,80,0.06);
+    }
 
     .form-note {
       margin-top: 1.6rem;
