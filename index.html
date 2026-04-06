@@ -699,7 +699,13 @@
 
 <script>
   /* ref tracking */
-  (function(){ document.getElementById('refCode').value = new URLSearchParams(location.search).get('ref')||'direct'; })();
+  (function(){
+    var ref = new URLSearchParams(location.search).get('ref')||'direct';
+    document.getElementById('refCode').value = ref;
+    if (ref !== 'direct') {
+      gtag('set', { campaign_source: ref });
+    }
+  })();
 
   /* ── SEGMENTED TOGGLE ── */
   (function(){
@@ -725,8 +731,14 @@
       memberType.value = 'houjin';
     }
 
-    btnKojin.addEventListener('click', activateKojin);
-    btnHoujin.addEventListener('click', activateHoujin);
+    btnKojin.addEventListener('click', function() {
+      activateKojin();
+      gtag('event', 'select_member_type', { member_type: 'kojin' });
+    });
+    btnHoujin.addEventListener('click', function() {
+      activateHoujin();
+      gtag('event', 'select_member_type', { member_type: 'houjin' });
+    });
   })();
 
   /* バリデーション helpers */
@@ -795,6 +807,11 @@
 
     var data = Object.fromEntries(new FormData(this).entries());
     console.log('[BRILLIANCE WL]', data);
+    gtag('event', 'sign_up', {
+      method: 'waitlist',
+      member_type: data.member_type,
+      ref: data.ref
+    });
     var f = this;
     var h = f.previousElementSibling;
     [f, h].forEach(function(el){
@@ -825,6 +842,13 @@
       .from('.panel__col-name, .panel__season', { opacity: 0, y: 10, duration: 1.0, ease: 'power2.out', stagger: 0.15 }, '-=0.7')
       .from('.panel__link',   { opacity: 0, duration: 1.2, ease: 'power1.inOut' }, '-=0.6');
 
+
+    ScrollTrigger.create({
+      trigger: '#register',
+      start: 'top 80%',
+      once: true,
+      onEnter: function() { gtag('event', 'view_form_section'); }
+    });
 
     gsap.from('.intro__rule', {
       scrollTrigger: { trigger: '.intro__rule', start: 'top 88%' },
