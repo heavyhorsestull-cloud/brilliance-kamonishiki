@@ -391,7 +391,8 @@
       align-items: center;
       gap: 1rem;
     }
-    .footer__logo { height: 18px; width: auto; opacity: 0.2; }
+    .footer__logo { height: 40px; width: auto; opacity: 0.3; transition: opacity 0.3s; }
+    .footer__logo-link:hover .footer__logo { opacity: 0.5; }
     .footer__copy { font-family: 'Zen Kaku Gothic New', sans-serif; font-weight: 300; font-size: 0.7rem; letter-spacing: 0.2em; color: var(--mid); }
     .footer__links {
       display: flex;
@@ -710,7 +711,7 @@
 
     <footer class="footer">
       <div class="footer__row">
-        <img class="footer__logo" src="logo.svg" alt="" aria-hidden="true" onerror="this.style.display='none'">
+        <a class="footer__logo-link" href="https://kamonishiki.com/" target="_blank" rel="noopener"><img class="footer__logo" src="logo.svg" alt="加茂錦酒造" onerror="this.style.display='none'"></a>
         <p class="footer__copy">© 2026 加茂錦酒造株式会社</p>
       </div>
       <div class="footer__links">
