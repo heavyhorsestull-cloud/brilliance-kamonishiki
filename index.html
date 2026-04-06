@@ -331,8 +331,9 @@
       width: 100%;
       padding: 1rem 2rem;
       background: transparent;
-      border: 1px solid var(--gold-l);
-      color: var(--gold);
+      border: none;
+      border-bottom: 1px solid var(--gold-l);
+      color: var(--mid);
       font-family: 'Zen Kaku Gothic New', sans-serif;
       font-weight: 300;
       font-size: 0.86rem;
@@ -340,16 +341,22 @@
       cursor: pointer;
       position: relative;
       overflow: hidden;
-      transition: color 0.5s ease, border-color 0.5s ease, background-color 0.5s ease, box-shadow 0.5s ease;
+      transition: color 0.4s ease;
     }
     .btn__fill { display: none; }
     .btn__text { position: relative; z-index: 1; }
-    .btn:hover {
-      color: var(--text);
-      border-color: var(--gold);
-      background: rgba(196,160,80,0.12);
-      box-shadow: 0 0 18px rgba(196,160,80,0.10), inset 0 0 12px rgba(196,160,80,0.06);
+    .btn::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 1px;
+      background: var(--gold);
+      transition: width 0.45s cubic-bezier(0.4,0,0.2,1), left 0.45s cubic-bezier(0.4,0,0.2,1);
     }
+    .btn:hover { color: var(--gold); }
+    .btn:hover::after { width: 100%; left: 0; }
 
     .form-note {
       margin-top: 1.6rem;
