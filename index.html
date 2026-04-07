@@ -863,9 +863,6 @@
       if (!firstInvalid) firstInvalid = emailInput.closest('.field') || emailInput;
     }
 
-    if (firstInvalid) {
-      firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
     return valid;
   }
 
