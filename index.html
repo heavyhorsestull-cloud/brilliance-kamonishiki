@@ -848,10 +848,11 @@
       if (input.type === 'hidden') return;
       clearFieldError(input);
       if (!input.value.trim()) {
+        var msg = input.id === 'email' ? 'メールアドレスを入力してください' :
+                  input.id === 'shop_name' ? '店舗名を入力してください' : '入力してください';
+        setFieldError(input, msg);
         valid = false;
-        var wrap = input.closest('.field');
-        if (wrap) wrap.classList.add('invalid');
-        if (!firstInvalid) firstInvalid = wrap || input;
+        if (!firstInvalid) firstInvalid = input.closest('.field') || input;
       }
     });
 
