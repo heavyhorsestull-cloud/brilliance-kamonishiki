@@ -21,21 +21,12 @@
   </script>
 
   <style>
-    /* ── コピー・選択・ドラッグ禁止 ── */
-    * {
+    /* ── 画像のみドラッグ・選択禁止 ── */
+    img {
       -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
       user-select: none;
       -webkit-user-drag: none;
-    }
-    /* フォーム入力欄のみ許可 */
-    input, select, textarea {
-      -webkit-user-select: text;
-      -moz-user-select: text;
-      -ms-user-select: text;
-      user-select: text;
-      -webkit-user-drag: auto;
+      pointer-events: auto;
     }
   </style>
 
@@ -947,20 +938,12 @@
     });
   })();
 
-  /* ── コピー・ドラッグ・右クリック禁止 ── */
-  document.addEventListener('contextmenu', function(e){ e.preventDefault(); });
-  document.addEventListener('dragstart',   function(e){ e.preventDefault(); });
-  document.addEventListener('selectstart', function(e){
-    var t = e.target;
-    if (t && (t.tagName === 'INPUT' || t.tagName === 'SELECT' || t.tagName === 'TEXTAREA')) return;
-    e.preventDefault();
+  /* ── 画像のみドラッグ・右クリック禁止 ── */
+  document.addEventListener('contextmenu', function(e){
+    if (e.target.tagName === 'IMG') e.preventDefault();
   });
-  document.addEventListener('keydown', function(e){
-    var t = document.activeElement;
-    if (t && (t.tagName === 'INPUT' || t.tagName === 'SELECT' || t.tagName === 'TEXTAREA')) return;
-    if ((e.ctrlKey || e.metaKey) && ['c','a','s','u','p'].indexOf(e.key.toLowerCase()) !== -1) {
-      e.preventDefault();
-    }
+  document.addEventListener('dragstart', function(e){
+    if (e.target.tagName === 'IMG') e.preventDefault();
   });
 </script>
 
