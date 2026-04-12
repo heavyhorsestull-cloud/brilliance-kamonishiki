@@ -32,7 +32,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400;500&family=Zen+Kaku+Gothic+New:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400;500&family=Zen+Kaku+Gothic+New:wght@300;400&family=Yuji+Boku&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
@@ -225,11 +225,12 @@
     }
 
     .intro__text {
-      font-weight: 200;
-      font-size: clamp(0.84rem, 1.4vw, 0.96rem);
-      line-height: 2.2;
+      font-family: 'Yuji Boku', serif;
+      font-weight: 400;
+      font-size: clamp(0.88rem, 1.5vw, 1.02rem);
+      line-height: 2.4;
       letter-spacing: 0.07em;
-      color: var(--mid);
+      color: var(--text);
       line-break: strict;
       text-wrap: wrap;
       overflow-wrap: anywhere;
@@ -631,7 +632,7 @@
     ═══════════════════════════════════════ */
 
     @media (min-width: 861px) {
-      .intro__text       { font-size: clamp(0.96rem, 1.6vw, 1.08rem); }
+      .intro__text       { font-size: clamp(1rem, 1.7vw, 1.12rem); }
       .form-title        { font-size: clamp(1.6rem, 3vw, 2.2rem); }
       .form-sub          { font-size: 0.88rem; }
       .field__lbl        { font-size: 0.82rem; }
@@ -672,7 +673,7 @@
         <p>好みの壁を超え、<br class="pc-br">世代や国籍にかかわらず、<br class="pc-br">これからも心を動かす日本酒を<br class="pc-br">目指して参ります。</p>
         <div class="intro__founder">
           加茂錦酒造株式会社<br>
-          代表取締役 / 醸造責任者<br>
+          代表取締役社長 / 醸造責任者<br>
           <img class="founder-sign" src="sign.svg" alt="田中悠一" draggable="false">
         </div>
       </div>
