@@ -859,31 +859,49 @@
   });
 
   /* form submit */
+  var GAS_URL = 'https://script.google.com/macros/s/AKfycbyCpYOEU8xZneJvxU27A7ijMAmFbOvhGVE8p7lOB774jnEKoK_KlFFNaeLDHOXC3cBk/exec';
+
   document.getElementById('registrationForm').addEventListener('submit', function(e){
     e.preventDefault();
     if (!validateForm(this)) return;
 
+    var btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.querySelector('.btn__text').textContent = '送信中…';
+
     var data = Object.fromEntries(new FormData(this).entries());
-    console.log('[BRILLIANCE WL]', data);
     gtag('event', 'sign_up', {
       method: 'waitlist',
       member_type: data.member_type,
       ref: data.ref
     });
+
     var f = this;
     var h = f.previousElementSibling;
-    [f, h].forEach(function(el){
-      if (!el) return;
-      el.style.transition = 'opacity 0.4s';
-      el.style.opacity = '0';
+
+    fetch(GAS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    }).then(function() {
+      [f, h].forEach(function(el){
+        if (!el) return;
+        el.style.transition = 'opacity 0.4s';
+        el.style.opacity = '0';
+      });
+      setTimeout(function(){
+        f.style.display = 'none';
+        if (h) h.style.display = 'none';
+        var ty = document.getElementById('thankYou');
+        ty.classList.add('on');
+        ty.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 420);
+    }).catch(function() {
+      btn.disabled = false;
+      btn.querySelector('.btn__text').textContent = '登録する';
+      alert('送信に失敗しました。しばらくしてから再度お試しください。');
     });
-    setTimeout(function(){
-      f.style.display = 'none';
-      if (h) h.style.display = 'none';
-      var ty = document.getElementById('thankYou');
-      ty.classList.add('on');
-      ty.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 420);
   });
 
   /* ── GSAP アニメーション ── */
