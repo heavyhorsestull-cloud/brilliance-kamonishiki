@@ -946,31 +946,31 @@
     if (isMobile) {
       // モバイル: スクロール毎に表示/非表示（toggleActions: play reverse）
       gsap.from('.intro__rule', {
-        scrollTrigger: { trigger: '.intro__rule', start: 'top 90%', end: 'top 20%', toggleActions: 'play reverse play reverse' },
+        scrollTrigger: { trigger: '.intro__rule', start: 'top 90%', end: 'top 20%', toggleActions: 'play none none none' },
         scaleX: 0, opacity: 0, duration: 0.8, ease: 'power2.inOut'
       });
       gsap.from('.intro__text p', {
-        scrollTrigger: { trigger: '.intro__text', start: 'top 88%', end: 'top 10%', toggleActions: 'play reverse play reverse' },
+        scrollTrigger: { trigger: '.intro__text', start: 'top 88%', end: 'top 10%', toggleActions: 'play none none none' },
         opacity: 0, y: 20, duration: 0.8, stagger: 0.12, ease: 'power3.out'
       });
       gsap.from('.intro__founder', {
-        scrollTrigger: { trigger: '.intro__founder', start: 'top 92%', end: 'top 20%', toggleActions: 'play reverse play reverse' },
+        scrollTrigger: { trigger: '.intro__founder', start: 'top 92%', end: 'top 20%', toggleActions: 'play none none none' },
         opacity: 0, y: 16, duration: 0.8, ease: 'power2.out'
       });
       gsap.from('.form-sub', {
-        scrollTrigger: { trigger: '.form-sub', start: 'top 90%', end: 'top 20%', toggleActions: 'play reverse play reverse' },
+        scrollTrigger: { trigger: '.form-sub', start: 'top 90%', end: 'top 20%', toggleActions: 'play none none none' },
         opacity: 0, y: 16, duration: 0.7, ease: 'power2.out'
       });
       gsap.from('.toggle-wrap, .field, .btn, .form-note', {
-        scrollTrigger: { trigger: '#registrationForm', start: 'top 88%', end: 'top 10%', toggleActions: 'play reverse play reverse' },
+        scrollTrigger: { trigger: '#registrationForm', start: 'top 88%', end: 'top 10%', toggleActions: 'play none none none' },
         opacity: 0, y: 16, duration: 0.6, stagger: 0.06, ease: 'power2.out'
       });
       gsap.from('.footer__row', {
-        scrollTrigger: { trigger: '.footer', start: 'top 92%', end: 'top 30%', toggleActions: 'play reverse play reverse' },
+        scrollTrigger: { trigger: '.footer', start: 'top 92%', end: 'top 30%', toggleActions: 'play none none none' },
         opacity: 0, y: 14, duration: 0.7, ease: 'power2.out'
       });
       gsap.from('.footer__links a', {
-        scrollTrigger: { trigger: '.footer__links', start: 'top 94%', end: 'top 30%', toggleActions: 'play reverse play reverse' },
+        scrollTrigger: { trigger: '.footer__links', start: 'top 94%', end: 'top 30%', toggleActions: 'play none none none' },
         opacity: 0, y: 12, duration: 0.5, stagger: 0.08, ease: 'power2.out'
       });
     } else {
