@@ -858,12 +858,44 @@
     clearFieldError(e.target);
   });
 
+  /* A: フォーム入力開始トラッキング */
+  (function(){
+    var formStarted = false;
+    document.getElementById('registrationForm').addEventListener('focusin', function(e) {
+      if (formStarted) return;
+      if (e.target.tagName === 'INPUT' && e.target.type !== 'hidden') {
+        formStarted = true;
+        gtag('event', 'form_start', { field: e.target.id });
+      }
+    });
+  })();
+
+  /* B: 外部リンククリックトラッキング */
+  document.querySelectorAll('.footer__links a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      gtag('event', 'outbound_click', {
+        link_url: this.href,
+        link_label: this.getAttribute('aria-label') || ''
+      });
+    });
+  });
+
+  /* C: フォームエラー発生トラッキング */
+
   /* form submit */
   var GAS_URL = 'https://script.google.com/macros/s/AKfycbyCpYOEU8xZneJvxU27A7ijMAmFbOvhGVE8p7lOB774jnEKoK_KlFFNaeLDHOXC3cBk/exec';
 
   document.getElementById('registrationForm').addEventListener('submit', function(e){
     e.preventDefault();
-    if (!validateForm(this)) return;
+    if (!validateForm(this)) {
+      var errors = [];
+      this.querySelectorAll('.field.invalid').forEach(function(f) {
+        var input = f.querySelector('input');
+        if (input) errors.push(input.id);
+      });
+      gtag('event', 'form_error', { error_fields: errors.join(',') });
+      return;
+    }
 
     var data = Object.fromEntries(new FormData(this).entries());
     gtag('event', 'sign_up', {
