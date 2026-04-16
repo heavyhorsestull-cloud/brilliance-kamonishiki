@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>[SAMPLE A] 加茂錦酒造 | Luxury Split Layout</title>
+  <link rel="icon" href="logo.svg" type="image/svg+xml">
+  <meta property="og:title" content="加茂錦酒造 Signature Collection">
+  <meta property="og:description" content="日本を、醸す。全国各地の酒造好適米の個性を一つの蔵から。">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="加茂錦酒造">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L3T2BGYVP2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-L3T2BGYVP2');
+  </script>
+
+  <style>
+    /* ── 画像のみドラッグ・選択禁止 ── */
+    img {
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-user-drag: none;
+      pointer-events: auto;
+    }
+  </style>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400&family=Zen+Kaku+Gothic+New:wght@300;400&family=Zen+Old+Mincho&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <style>
+
+    :root {
+      --bg: #070707;
+      --panel: #0a0a0a;
+      --gold: #c4a050;
+      --gold-h: #d4b468;
+      --gold-l: #8a7030;
+      --gline: rgba(196,160,80,0.10);
+      --text: #f0ebe2;
+      --mid: #b5ada3;
+      --dim: #7a736c;
+      --font-display: 'Zen Old Mincho', 'Noto Serif JP', serif;
+      --font-body: 'Noto Serif JP', 'YuMincho', serif;
+      --font-ui: 'Zen Kaku Gothic New', 'Helvetica Neue', sans-serif;
+      --ease-reveal: cubic-bezier(0.22,1,0.36,1);
+      --ease-smooth: cubic-bezier(0.16,1,0.3,1);
+      --duration-reveal: 0.9s;
+      --duration-hover: 0.35s;
+      --section-pad-desktop: 7rem;
+      --section-pad-mobile: 4.5rem;
+      --side-pad-desktop: 5rem;
+      --side-pad-mobile: 2rem;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-weight: 200;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* grain overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9000;
+      opacity: 0.022;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)'/%3E%3C/svg%3E");
+      background-size: 128px 128px;
+    }
+
+
+    /* ═══════════════════════════════════════
+       DESKTOP SPLIT LAYOUT  (≥860px)
+    ═══════════════════════════════════════ */
+
+    .split {
+      display: flex;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    /* LEFT — sticky branding panel */
+    .panel {
+      position: sticky;
+      top: 0;
+      width: 33.333vw;
+      height: 100svh;
+      flex-shrink: 0;
+      background: var(--panel);
+      border-right: 1px solid var(--gline);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 3rem;
+      text-align: center;
+    }
+
+    .panel__logo {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 2rem;
+      background: url('logo.svg') center / contain no-repeat;
+    }
+
+    .panel__rule {
+      width: 28px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold-l), transparent);
+      margin-bottom: 2.8rem;
+    }
+
+    .panel__sub {
+      font-weight: 200;
+      font-size: clamp(0.86rem, 1.4vw, 1rem);
+      letter-spacing: 0.22em;
+      color: var(--mid);
+      margin-right: -0.22em;
+      margin-bottom: 1rem;
+    }
+
+    .panel__brand {
+      font-family: var(--font-display);
+      font-weight: 200;
+      font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+      letter-spacing: 0.28em;
+      margin-right: -0.28em;
+      color: var(--gold-h);
+      line-height: 1.5;
+      margin-bottom: 2.8rem;
+      position: relative;
+      left: 0.15em;
+    }
+
+    .panel__detail {
+      font-weight: 200;
+      font-size: clamp(0.76rem, 1.2vw, 0.88rem);
+      letter-spacing: 0.14em;
+      color: var(--mid);
+      line-height: 2.2;
+      margin-bottom: 0.5rem;
+    }
+
+    .panel__col-name {
+      font-family: var(--font-ui);
+      font-weight: 300;
+      font-size: 0.6875rem;
+      letter-spacing: 0.45em;
+      color: var(--mid);
+      text-transform: uppercase;
+      margin-top: 1.6rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .panel__season {
+      font-family: var(--font-ui);
+      font-weight: 300;
+      font-size: 0.6875rem;
+      letter-spacing: 0.45em;
+      color: var(--mid);
+      text-transform: uppercase;
+    }
+
+    .panel__link {
+      position: absolute;
+      bottom: 2.2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+      font-family: var(--font-ui);
+      font-weight: 300;
+      font-size: 0.72rem;
+      letter-spacing: 0.45em;
+      color: var(--mid);
+      text-transform: uppercase;
+      transition: color 0.4s;
+      white-space: nowrap;
+    }
+    .panel__link:hover { color: var(--gold); letter-spacing: 0.55em; }
+    .panel__link::after {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: currentColor;
+      transition: width 0.4s ease, background 0.4s ease;
+    }
+    .panel__link:hover::after { width: 36px; background: var(--gold); }
+
+    /* RIGHT — scrollable content */
+    .content {
+      flex: 1;
+      min-width: 0;
+      opacity: 0;
+    }
+
+    /* intro */
+    .intro {
+      padding: var(--section-pad-desktop) var(--side-pad-desktop) var(--section-pad-desktop);
+      max-width: 580px;
+      margin: 0 auto;
+    }
+
+    .intro__rule {
+      width: 32px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold-l), transparent);
+      margin: 0 auto 5.5rem;
+    }
+
+    .intro__text {
+      font-weight: 200;
+      font-size: 0.875rem;
+      line-height: 2.4;
+      letter-spacing: 0.04em;
+      color: var(--text);
+      line-break: strict;
+      text-wrap: wrap;
+      overflow-wrap: anywhere;
+      text-align: left;
+    }
+    .intro__text p + p { margin-top: 2.2em; }
+
+    .intro__founder {
+      margin-top: 3.5em;
+      text-align: right;
+      font-weight: 200;
+      font-size: 0.8125rem;
+      letter-spacing: 0.14em;
+      color: var(--mid);
+      line-height: 1.8;
+    }
+    .intro__founder .founder-sign {
+      display: block;
+      width: 7rem;
+      height: 2.8rem;
+      margin-left: auto;
+      margin-top: 0.8rem;
+      background: url('sign.svg') right center / contain no-repeat;
+    }
+
+    /* form section */
+    .form-sec {
+      border-top: 1px solid var(--gline);
+      padding: var(--section-pad-desktop) var(--side-pad-desktop) 10rem;
+      max-width: 580px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    /* フォーム入力部分は左揃えを維持 */
+    .form-sec form {
+      text-align: left;
+    }
+
+    .form-sub {
+      font-weight: 200;
+      font-size: 0.875rem;
+      letter-spacing: 0.06em;
+      color: var(--mid);
+      line-height: 2.2;
+      margin-bottom: 3.5rem;
+    }
+
+    /* fields */
+    .field {
+      border-bottom: 1px solid rgba(78,73,68,0.25);
+      padding: 1.1rem 0 0.5rem;
+      transition: border-color var(--duration-hover) var(--ease-smooth);
+    }
+    .field:focus-within { border-bottom-color: var(--gold-l); }
+
+    .field__lbl {
+      display: block;
+      font-family: var(--font-ui);
+      font-weight: 300;
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
+      color: var(--mid);
+      margin-bottom: 0.38rem;
+      transition: color var(--duration-hover) var(--ease-smooth);
+    }
+    .field:focus-within .field__lbl { color: var(--gold-l); }
+    .field__req { color: var(--gold-l); margin-left: 0.1em; }
+
+    .field__input {
+      display: block;
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-weight: 200;
+      font-size: 0.875rem;
+      letter-spacing: 0.04em;
+      padding: 0.08rem 0;
+      appearance: none;
+      -webkit-appearance: none;
+      border-radius: 0;
+      caret-color: var(--gold);
+    }
+    .field__input::placeholder { color: rgba(78,73,68,0.45); font-weight: 200; font-size: 0.875rem; }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 1.1rem 2rem;
+      background: transparent;
+      border: 1px solid var(--gold-l);
+      color: var(--gold);
+      font-family: var(--font-ui);
+      font-weight: 200;
+      font-size: 0.75rem;
+      letter-spacing: 0.45em;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: color var(--duration-hover) var(--ease-smooth), border-color var(--duration-hover) var(--ease-smooth);
+    }
+    .btn__fill { position: absolute; inset: 0; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform 0.42s cubic-bezier(0.4,0,0.2,1); }
+    .btn__text { position: relative; z-index: 1; }
+    .btn:hover .btn__fill { transform: scaleX(1); }
+    .btn:hover { color: var(--bg); border-color: var(--gold); }
+
+    .form-note {
+      margin-top: 1.6rem;
+      font-family: var(--font-ui);
+      font-weight: 200;
+      font-size: 0.75rem;
+      color: var(--mid);
+      line-height: 2.1;
+      letter-spacing: 0.06em;
+    }
+    .form-note__link {
+      color: var(--mid);
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+      transition: color 0.3s;
+    }
+    .form-note__link:hover { color: var(--gold); }
+
+    /* バリデーションエラー状態 */
+    .field.invalid { border-bottom-color: #b06050; }
+    .field.invalid .field__lbl { color: #b06050; }
+    .field__err {
+      display: block;
+      font-family: var(--font-ui);
+      font-weight: 200;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      color: #b06050;
+      margin-top: 0.3rem;
+    }
+
+    .thankyou { display: none; padding: 2rem 0; text-align: center; }
+    .thankyou.on { display: block; animation: fadeUp 0.9s ease forwards; }
+    .thankyou__body { font-weight: 200; font-size: 0.875rem; letter-spacing: 0.06em; color: var(--mid); line-height: 2.4; }
+
+    /* desktop footer */
+    .footer {
+      padding: 2rem;
+      border-top: 1px solid var(--gline);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .footer__row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .footer__logo { width: 56px; height: 56px; opacity: 0.3; transition: opacity 0.3s; background: url('logo.svg') center / contain no-repeat; }
+    .footer__logo-link:hover .footer__logo { opacity: 0.5; }
+    .footer__copy { font-family: var(--font-ui); font-weight: 200; font-size: 0.75rem; letter-spacing: 0.18em; color: var(--mid); }
+    .footer__links {
+      display: flex;
+      align-items: center;
+      gap: 1.4rem;
+    }
+    .footer__links a {
+      color: var(--dim);
+      transition: color 0.3s;
+      display: flex;
+      align-items: center;
+    }
+    .footer__links a:hover { color: var(--gold); }
+    .footer__links svg { width: 24px; height: 24px; transition: transform var(--duration-hover) var(--ease-smooth); }
+    .footer__links a:hover svg { transform: scale(1.04); }
+    .footer__links a {
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .footer__links .footer__label-text {
+      font-family: var(--font-ui);
+      font-weight: 200;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* reveal — GSAP ScrollTrigger で制御 */
+
+    @keyframes fadeUp { from { opacity:0; transform: translateY(14px); } to { opacity:1; transform: none; } }
+    @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+    @keyframes breathe {
+      0%, 100% { opacity: 0.25; transform: scaleY(0.75); transform-origin: top; }
+      50%       { opacity: 0.65; transform: scaleY(1); }
+    }
+
+
+    /* モバイルのみ改行 */
+    .mb-br { display: none; }
+    /* PC のみ改行 */
+    .pc-br { display: inline; }
+
+    /* ═══════════════════════════════════════
+       MOBILE HERO OVERRIDE  (<860px)
+       パネルをフルスクリーンの中央揃えヒーローに変換
+    ═══════════════════════════════════════ */
+
+    @media (max-width: 860px) {
+
+      .mb-br { display: inline; }
+
+      .split {
+        display: block; /* single column */
+      }
+
+      /* panel → full-screen centered hero */
+      .panel {
+        position: relative;
+        width: 100%;
+        height: auto;
+        min-height: 100svh;
+        background: var(--bg);
+        border-right: none;
+        border-bottom: 1px solid var(--gline);
+        padding: 6rem var(--side-pad-mobile) 5rem;
+        overflow: hidden;
+      }
+
+      /* ambient radial glow */
+      .panel::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background:
+          radial-gradient(ellipse 70% 55% at 50% 38%, rgba(196,160,80,0.035) 0%, transparent 70%),
+          radial-gradient(ellipse 40% 30% at 50% 22%, rgba(196,160,80,0.028) 0%, transparent 60%);
+      }
+
+      /* logo: mobile hero */
+      .panel__logo {
+        width: 96px;
+        height: 96px;
+        margin-bottom: 2rem;
+      }
+
+      /* 日本を、醸す。 */
+      .panel__sub {
+        font-size: 0.94rem;
+        letter-spacing: 0.28em;
+        color: var(--mid);
+        margin-bottom: 1.6rem;
+      }
+
+      /* 日本を、醸す。 — mobile hero size */
+      .panel__brand {
+        font-size: clamp(1.8rem, 7vw, 3.2rem);
+        letter-spacing: 0.28em;
+        margin-bottom: 1.8rem;
+      }
+
+      .panel__detail {
+        font-size: min(0.92rem, calc((100vw - 68px) / 23));
+        letter-spacing: 0;
+        line-height: 2.4;
+      }
+
+      .panel__season {
+        font-size: 0.6875rem;
+        margin-top: 0.4rem;
+      }
+
+      /* scroll hint — shown only on mobile */
+      .panel__link {
+        position: static;
+        transform: none;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.64rem;
+        letter-spacing: 0.5em;
+        margin-top: 2.4rem;
+      }
+      .panel__link::after {
+        content: '';
+        display: block;
+        width: 1px;
+        height: 32px;
+        background: linear-gradient(to bottom, var(--gold-l), transparent);
+        animation: breathe 2.6s ease-in-out infinite;
+      }
+
+      /* right content sections */
+      .intro {
+        padding: var(--section-pad-mobile) var(--side-pad-mobile) var(--section-pad-mobile);
+        max-width: 100%;
+        margin: 0;
+      }
+
+      .intro__text {
+        text-wrap: wrap;
+        letter-spacing: 0.02em;
+        font-size: 0.82rem;
+        line-height: 2.6;
+      }
+
+      .pc-br { display: none; }
+
+      .form-sub {
+        font-size: 0.875rem;
+      }
+
+      .form-sec {
+        padding: var(--section-pad-mobile) var(--side-pad-mobile) 6rem;
+        max-width: 100%;
+        margin: 0;
+      }
+
+      .footer {
+        padding: 2.5rem var(--side-pad-mobile);
+        justify-content: center;
+        gap: 1.2rem;
+      }
+      .footer__logo { width: 64px; height: 64px; }
+      .footer__links { gap: 2rem; }
+      .footer__links svg { width: 26px; height: 26px; }
+      .footer__links a { padding: 0.4rem; }
+
+      .seg-toggle__btn {
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+        padding: 0.72rem 0.3rem;
+      }
+    }
+
+
+
+    /* ═══════════════════════════════════════
+       SEGMENTED TOGGLE  (個人 / 飲食店)
+    ═══════════════════════════════════════ */
+
+    .toggle-wrap {
+      margin-bottom: 2rem;
+    }
+
+    .seg-toggle {
+      display: flex;
+      width: 100%;
+      border: 1px solid rgba(78,73,68,0.25);
+      position: relative;
+    }
+
+    .seg-toggle__btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 0.72rem 0.5rem;
+      font-family: var(--font-ui);
+      font-weight: 200;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      color: var(--mid);
+      position: relative;
+      transition: color 0.28s;
+    }
+
+    .seg-toggle__btn + .seg-toggle__btn {
+      border-left: 1px solid rgba(78,73,68,0.25);
+    }
+
+    .seg-toggle__btn.active {
+      color: var(--text);
+    }
+
+    .seg-toggle__btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    /* ═══════════════════════════════════════
+       PC FONT SIZE BOOST  (>860px)
+    ═══════════════════════════════════════ */
+
+    @media (min-width: 861px) {
+      .intro__text       { font-size: 1rem; }
+      .form-sub          { font-size: 1rem; }
+      .field__lbl        { font-size: 0.8125rem; }
+      .field__input      { font-size: 1rem; }
+      .seg-toggle__btn   { font-size: 0.8125rem; }
+      .btn               { font-size: 0.75rem; }
+      .form-note         { font-size: 0.8125rem; }
+      .thankyou__body    { font-size: 1rem; }
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="split">
+
+  <!-- ══════ LEFT PANEL / MOBILE HERO ══════ -->
+  <aside class="panel">
+    <div class="panel__logo" role="img" aria-label="加茂錦 紋章"></div>
+    <div class="panel__rule" aria-hidden="true"></div>
+    <h1 class="panel__brand">日本を、醸す。</h1>
+    <p class="panel__detail">美しい稲作を、生産者から杜氏へ。<br>届けたい日本の心がある。</p>
+    <p class="panel__col-name">Signature Collection</p>
+    <p class="panel__season">Coming Soon, Winter 2026</p>
+  </aside>
+
+  <!-- ══════ RIGHT CONTENT ══════ -->
+  <div class="content">
+
+    <section class="intro" aria-label="ご案内">
+
+      <div class="intro__rule" aria-hidden="true"></div>
+
+      <div class="intro__text">
+        <p>当蔵は「日本を、醸す。」をテーマに、<br class="pc-br">新潟、兵庫、岡山、秋田…<br class="pc-br">全国各地の生産者のもとへ足を運び、<br class="pc-br">その土地が育む多彩な酒造好適米の個性を<br class="pc-br">一つの蔵から醸しています。</p>
+        <p>國酒を醸す者として、<br class="pc-br">生産者の気概と日本の美しい田園風景を<br class="pc-br">一口一滴に込め、<br class="pc-br">愛飲家の皆さまにお届けしたい。</p>
+        <p>好みの壁を超え、<br class="pc-br">世代や国籍にかかわらず、<br class="pc-br">これからも心を動かす日本酒を<br class="pc-br">目指して参ります。</p>
+        <div class="intro__founder">
+          加茂錦酒造株式会社<br>
+          代表取締役社長 / 醸造責任者<br>
+          <div class="founder-sign" role="img" aria-label="田中悠一"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="form-sec" id="register">
+
+      <div>
+        <p class="form-sub">ご登録いただいた方へ、蔵からご案内いたします。<br>全ての醸造作品は最高の状態で蔵元より直送いたします。</p>
+      </div>
+
+      <form id="registrationForm" novalidate>
+        <input type="hidden" name="ref" id="refCode" value="direct">
+        <input type="hidden" name="member_type" id="memberType" value="kojin">
+
+        <!-- ══ SEGMENTED TOGGLE ══ -->
+        <div class="toggle-wrap" role="group" aria-label="登録区分">
+          <div class="seg-toggle" id="segToggle">
+            <button type="button" class="seg-toggle__btn active" id="btnKojin" aria-pressed="true">個人のお客様</button>
+            <button type="button" class="seg-toggle__btn" id="btnHoujin" aria-pressed="false">飲食店のお客様</button>
+          </div>
+        </div>
+
+        <!-- ══ メールアドレス ══ -->
+        <div class="field">
+          <label class="field__lbl" for="email">メールアドレス<span class="field__req">*</span></label>
+          <input class="field__input" type="email" id="email" name="email" required placeholder="your@email.com" autocomplete="email">
+        </div>
+
+        <!-- ══ 店舗名（飲食店のみ） ══ -->
+        <div id="shopGroup" style="display:none">
+          <div class="field">
+            <label class="field__lbl" for="shop_name">店舗名<span class="field__req">*</span></label>
+            <input class="field__input" type="text" id="shop_name" name="shop_name" placeholder="店舗名">
+          </div>
+        </div>
+
+        <button class="btn" type="submit" id="submitBtn" style="margin-top:2rem">
+          <span class="btn__fill" aria-hidden="true"></span>
+          <span class="btn__text">登録する</span>
+        </button>
+
+        <p class="form-note">
+          ※ 登録は無料です。登録によって購入の義務は一切生じません。<br>
+          ※ ご登録により<a href="privacy.html" target="_blank" rel="noopener" class="form-note__link">プライバシーポリシー</a>に同意したものとみなします。
+        </p>
+      </form>
+
+      <div class="thankyou" id="thankYou" role="status" aria-live="polite">
+        <p class="thankyou__body">
+          <br>ご登録ありがとうございます。<br><br>
+          蔵から直接ご案内をお届けいたします。<br><br>
+          今しばらくお待ちくださいませ。
+        </p>
+      </div>
+
+    </section>
+
+    <footer class="footer">
+      <div class="footer__row">
+        <a class="footer__logo-link" href="https://kamonishiki.com/" target="_blank" rel="noopener"><div class="footer__logo" role="img" aria-label="加茂錦酒造"></div></a>
+        <p class="footer__copy">&copy; 2026 加茂錦酒造株式会社</p>
+      </div>
+      <div class="footer__links">
+        <a href="https://www.youtube.com/watch?v=lRriXEiGx_s" target="_blank" rel="noopener" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          <span class="footer__label-text">YouTube</span>
+        </a>
+        <a href="https://www.instagram.com/kamonishiki_official/" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          <span class="footer__label-text">Instagram</span>
+        </a>
+        <a href="https://dancyu.jp/read/2026_00010287.html" target="_blank" rel="noopener" aria-label="dancyu 前編">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 2l5 5h-5V4zM7 17v-2h10v2H7zm0-4v-2h10v2H7z"/></svg>
+          <span class="footer__label-text">dancyu 前編</span>
+        </a>
+        <a href="https://dancyu.jp/read/2026_00010286.html" target="_blank" rel="noopener" aria-label="dancyu 後編">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 2l5 5h-5V4zM7 17v-2h10v2H7zm0-4v-2h10v2H7z"/></svg>
+          <span class="footer__label-text">dancyu 後編</span>
+        </a>
+      </div>
+    </footer>
+
+  </div><!-- .content -->
+</div><!-- .split -->
+
+<script>
+  /* ref tracking */
+  (function(){
+    var ref = new URLSearchParams(location.search).get('ref')||'direct';
+    document.getElementById('refCode').value = ref;
+    if (ref !== 'direct') {
+      gtag('set', { campaign_source: ref });
+    }
+  })();
+
+  /* ── SEGMENTED TOGGLE ── */
+  (function(){
+    var btnKojin   = document.getElementById('btnKojin');
+    var btnHoujin  = document.getElementById('btnHoujin');
+    var shopGroup  = document.getElementById('shopGroup');
+    var shopInput  = document.getElementById('shop_name');
+    var memberType = document.getElementById('memberType');
+
+    function activateKojin() {
+      btnKojin.classList.add('active');    btnKojin.setAttribute('aria-pressed', 'true');
+      btnHoujin.classList.remove('active'); btnHoujin.setAttribute('aria-pressed', 'false');
+      shopGroup.style.display = 'none';
+      shopInput.required = false;
+      memberType.value = 'kojin';
+    }
+
+    function activateHoujin() {
+      btnHoujin.classList.add('active');   btnHoujin.setAttribute('aria-pressed', 'true');
+      btnKojin.classList.remove('active'); btnKojin.setAttribute('aria-pressed', 'false');
+      shopGroup.style.display = '';
+      shopInput.required = true;
+      memberType.value = 'houjin';
+    }
+
+    btnKojin.addEventListener('click', function() {
+      activateKojin();
+      gtag('event', 'select_member_type', { member_type: 'kojin' });
+    });
+    btnHoujin.addEventListener('click', function() {
+      activateHoujin();
+      gtag('event', 'select_member_type', { member_type: 'houjin' });
+    });
+  })();
+
+  /* バリデーション helpers */
+  var RE_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  function setFieldError(input, msg) {
+    var wrap = input.closest('.field');
+    if (!wrap) return;
+    wrap.classList.add('invalid');
+    var err = wrap.querySelector('.field__err');
+    if (!err) {
+      err = document.createElement('span');
+      err.className = 'field__err';
+      wrap.appendChild(err);
+    }
+    err.textContent = msg;
+  }
+
+  function clearFieldError(input) {
+    var wrap = input.closest('.field');
+    if (!wrap) return;
+    wrap.classList.remove('invalid');
+    var err = wrap.querySelector('.field__err');
+    if (err) err.textContent = '';
+  }
+
+  function validateForm(form) {
+    var valid = true;
+    var firstInvalid = null;
+
+    /* required チェック */
+    form.querySelectorAll('[required]').forEach(function(input) {
+      if (input.type === 'hidden') return;
+      clearFieldError(input);
+      if (!input.value.trim()) {
+        var msg = input.id === 'email' ? 'メールアドレスを入力してください' :
+                  input.id === 'shop_name' ? '店舗名を入力してください' : '入力してください';
+        setFieldError(input, msg);
+        valid = false;
+        if (!firstInvalid) firstInvalid = input.closest('.field') || input;
+      }
+    });
+
+    /* メール形式チェック */
+    var emailInput = document.getElementById('email');
+    if (emailInput && emailInput.value.trim() && !RE_EMAIL.test(emailInput.value.trim())) {
+      setFieldError(emailInput, '正しいメールアドレスを入力してください');
+      valid = false;
+      if (!firstInvalid) firstInvalid = emailInput.closest('.field') || emailInput;
+    }
+
+    return valid;
+  }
+
+  /* 入力したらエラー状態を解除 */
+  document.getElementById('registrationForm').addEventListener('input', function(e) {
+    clearFieldError(e.target);
+  });
+
+  /* A: フォーム入力開始トラッキング */
+  (function(){
+    var formStarted = false;
+    document.getElementById('registrationForm').addEventListener('focusin', function(e) {
+      if (formStarted) return;
+      if (e.target.tagName === 'INPUT' && e.target.type !== 'hidden') {
+        formStarted = true;
+        gtag('event', 'form_start', { field: e.target.id });
+      }
+    });
+  })();
+
+  /* B: 外部リンククリックトラッキング */
+  document.querySelectorAll('.footer__links a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      gtag('event', 'outbound_click', {
+        link_url: this.href,
+        link_label: this.getAttribute('aria-label') || ''
+      });
+    });
+  });
+
+  /* C: フォームエラー発生トラッキング */
+
+  /* form submit */
+  var GAS_URL = 'https://script.google.com/macros/s/AKfycbyCpYOEU8xZneJvxU27A7ijMAmFbOvhGVE8p7lOB774jnEKoK_KlFFNaeLDHOXC3cBk/exec';
+
+  document.getElementById('registrationForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    if (!validateForm(this)) {
+      var errors = [];
+      this.querySelectorAll('.field.invalid').forEach(function(f) {
+        var input = f.querySelector('input');
+        if (input) errors.push(input.id);
+      });
+      gtag('event', 'form_error', { error_fields: errors.join(',') });
+      return;
+    }
+
+    var data = Object.fromEntries(new FormData(this).entries());
+    gtag('event', 'sign_up', {
+      method: 'waitlist',
+      member_type: data.member_type,
+      ref: data.ref
+    });
+
+    // サンクス画面を即表示
+    var f = this;
+    var h = f.previousElementSibling;
+    [f, h].forEach(function(el){
+      if (!el) return;
+      el.style.transition = 'opacity 0.4s';
+      el.style.opacity = '0';
+    });
+    setTimeout(function(){
+      f.style.display = 'none';
+      if (h) h.style.display = 'none';
+      var ty = document.getElementById('thankYou');
+      ty.classList.add('on');
+      ty.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 420);
+
+    // 裏でGASに送信（keepaliveでページ離脱時も送信を保証）
+    fetch(GAS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      keepalive: true,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  });
+
+  /* ── GSAP アニメーション ── */
+  (function(){
+    gsap.registerPlugin(ScrollTrigger);
+
+    var tl = gsap.timeline({ delay: 0.3 });
+    tl.from('.panel__logo',   { opacity: 0, y: 24, duration: 1.0, ease: 'power3.out' })
+      .from('.panel__rule',   { opacity: 0, scaleX: 0, transformOrigin: 'center center', duration: 0.8, ease: 'power2.inOut' }, '-=0.4')
+      .fromTo('.panel__brand',
+        { opacity: 0, y: 20, filter: 'blur(10px)' },
+        { opacity: 1, y: 0,  filter: 'blur(0px)', duration: 1.3, ease: 'power3.out',
+          onComplete: function() { document.querySelector('.panel__brand').style.filter = 'none'; }
+        }, '-=0.3')
+      .from('.panel__detail', { opacity: 0, y: 16, duration: 0.9, ease: 'power2.out' }, '-=0.5')
+      .from('.panel__col-name, .panel__season', { opacity: 0, y: 12, duration: 0.8, ease: 'power2.out', stagger: 0.15 }, '-=0.4')
+      .to('.content', { opacity: 1, duration: 1.2, ease: 'power2.inOut' }, '-=0.2');
+
+
+    ScrollTrigger.create({
+      trigger: '#register',
+      start: 'top 80%',
+      once: true,
+      onEnter: function() { gtag('event', 'view_form_section'); }
+    });
+
+    var isMobile = window.matchMedia('(max-width: 860px)').matches;
+
+    if (isMobile) {
+      // モバイル: スクロール毎に表示/非表示（toggleActions: play reverse）
+      gsap.from('.intro__rule', {
+        scrollTrigger: { trigger: '.intro__rule', start: 'top 90%', end: 'top 20%', toggleActions: 'play none none none' },
+        scaleX: 0, opacity: 0, duration: 0.8, ease: 'power2.inOut'
+      });
+      gsap.from('.intro__text p', {
+        scrollTrigger: { trigger: '.intro__text', start: 'top 88%', end: 'top 10%', toggleActions: 'play none none none' },
+        opacity: 0, y: 20, duration: 0.8, stagger: 0.12, ease: 'power3.out'
+      });
+      gsap.from('.intro__founder', {
+        scrollTrigger: { trigger: '.intro__founder', start: 'top 92%', end: 'top 20%', toggleActions: 'play none none none' },
+        opacity: 0, y: 16, duration: 0.8, ease: 'power2.out'
+      });
+      gsap.from('.form-sub', {
+        scrollTrigger: { trigger: '.form-sub', start: 'top 90%', end: 'top 20%', toggleActions: 'play none none none' },
+        opacity: 0, y: 16, duration: 0.7, ease: 'power2.out'
+      });
+      gsap.from('.toggle-wrap, .field, .btn, .form-note', {
+        scrollTrigger: { trigger: '#registrationForm', start: 'top 88%', end: 'top 10%', toggleActions: 'play none none none' },
+        opacity: 0, y: 16, duration: 0.6, stagger: 0.06, ease: 'power2.out'
+      });
+      gsap.from('.footer__row', {
+        scrollTrigger: { trigger: '.footer', start: 'top 92%', end: 'top 30%', toggleActions: 'play none none none' },
+        opacity: 0, y: 14, duration: 0.7, ease: 'power2.out'
+      });
+      gsap.from('.footer__links a', {
+        scrollTrigger: { trigger: '.footer__links', start: 'top 94%', end: 'top 30%', toggleActions: 'play none none none' },
+        opacity: 0, y: 12, duration: 0.5, stagger: 0.08, ease: 'power2.out'
+      });
+    } else {
+      // PC: 一度だけ再生
+      gsap.from('.intro__rule', {
+        scrollTrigger: { trigger: '.intro__rule', start: 'top 85%' },
+        scaleX: 0, opacity: 0, duration: 1.2, ease: 'power2.inOut'
+      });
+      gsap.from('.intro__text p', {
+        scrollTrigger: { trigger: '.intro__text', start: 'top 82%' },
+        opacity: 0, y: 24, duration: 1.2, stagger: 0.22, ease: 'power3.out'
+      });
+      gsap.from('.intro__founder', {
+        scrollTrigger: { trigger: '.intro__founder', start: 'top 88%' },
+        opacity: 0, y: 18, duration: 1.0, ease: 'power2.out'
+      });
+      gsap.from('.form-sub', {
+        scrollTrigger: { trigger: '.form-sub', start: 'top 85%' },
+        opacity: 0, y: 20, duration: 1.0, ease: 'power2.out'
+      });
+      gsap.from('.toggle-wrap, .field, .btn, .form-note', {
+        scrollTrigger: { trigger: '#registrationForm', start: 'top 80%' },
+        opacity: 0, y: 20, duration: 0.9, stagger: 0.10, ease: 'power2.out'
+      });
+    }
+  })();
+
+  /* ── 画像のみドラッグ・右クリック禁止 ── */
+  document.addEventListener('contextmenu', function(e){
+    if (e.target.tagName === 'IMG') e.preventDefault();
+  });
+  document.addEventListener('dragstart', function(e){
+    if (e.target.tagName === 'IMG') e.preventDefault();
+  });
+</script>
+
+</body>
+</html>
